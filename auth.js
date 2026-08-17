@@ -123,7 +123,7 @@ function getPageNameFromHref(href) {
 
 function isProtectedPage(pageName) {
   const protectedPages = new Set([
-    'wallet.html', 'checkin.html', 'calculator.html',
+    'me.html', 'wallet.html', 'checkin.html', 'calculator.html',
     'funding_details.html', 'history.html', 'recharge.html', 'contract.html',
   ]);
   return protectedPages.has(pageName);

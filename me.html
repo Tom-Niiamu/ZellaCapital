@@ -17,17 +17,17 @@
       <header class="profile-header">
         <div class="brand-block">
           <p class="eyebrow">Personal dashboard</p>
-          <h1>Welcome back</h1>
         </div>
-        <p class="profile-subtext">Track your activity, rewards, and account access in one place.</p>
       </header>
 
-      <section class="quick-links" aria-label="Quick links to other pages">
-        <h2>Explore the site</h2>
-        <div class="quick-links-grid">
-          <a href="login.html">Log in</a>
-          <a href="signup.html">Create account</a>
+      <!-- Personal Dashboard Image Area -->
+      <section class="dashboard-user-area" style="margin-bottom: 24px; text-align: center;">
+        <div class="profile-image-container" style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; background: rgba(255,255,255,0.05); border: 2px solid var(--accent); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;">
+          <img id="user-avatar" src="" alt="Profile Image" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+          <svg id="avatar-placeholder" viewBox="0 0 24 24" style="width: 60px; height: 60px; stroke: var(--muted); fill: none; stroke-width: 1.5;"><circle cx="12" cy="8" r="4"></circle><path d="M6 20v-1a6 6 0 0 1 12 0v1"></path></svg>
+          <input type="file" id="avatar-input" accept="image/*" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
         </div>
+        <p class="muted" style="font-size: 0.85rem; color: var(--muted);">Click to upload profile photo</p>
       </section>
 
       <!-- Statistics dashboard -->

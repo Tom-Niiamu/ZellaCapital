@@ -39,11 +39,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { data: { session } } = await supabase.auth.getSession()
   const currentUser = session ? normalizeUser(session.user) : null
 
-  const welcomeTitle = document.querySelector('.profile-header h1')
-  if (welcomeTitle) {
-    welcomeTitle.textContent = currentUser
-      ? `Welcome back, ${currentUser.fullName || 'there'}`
-      : 'Welcome back'
+  const avatarInput = document.getElementById('avatar-input')
+  const userAvatar = document.getElementById('user-avatar')
+  const placeholder = document.getElementById('avatar-placeholder')
+
+  if (avatarInput) {
+    avatarInput.addEventListener('change', (e) => {
+      const file = e.target.files[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          userAvatar.src = event.target.result
+          userAvatar.style.display = 'block'
+          placeholder.style.display = 'none'
+          // Optional: Save to local storage or Supabase in the future
+          localStorage.setItem('zella_avatar', event.target.result)
+        }
+        reader.readAsDataURL(file)
+      }
+    })
+
+    // Load saved avatar from localStorage
+    const savedAvatar = localStorage.getItem('zella_avatar')
+    if (savedAvatar) {
+      userAvatar.src = savedAvatar
+      userAvatar.style.display = 'block'
+      placeholder.style.display = 'none'
+    }
   }
 
   const loginLinks = document.querySelectorAll('a[href="login.html"]')

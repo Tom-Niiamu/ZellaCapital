@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: dark;
   --bg: #07111f;
   --panel: rgba(10, 21, 37, 0.92);
@@ -19,8 +19,8 @@ body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background:
-    linear-gradient(rgba(2, 6, 23, 0.82), rgba(2, 6, 23, 0.88)),
-    url('image/backgroundpic.jpeg') center / cover no-repeat fixed;
+    linear-gradient(rgba(2, 6, 23, 0.35), rgba(2, 6, 23, 0.45)),
+    url('images/backgroundpic.jpeg') center / cover no-repeat fixed;
   color: var(--text);
   min-height: 100vh;
 }

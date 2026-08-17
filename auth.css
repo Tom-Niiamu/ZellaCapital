@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #0f172a;
   --panel: #ffffff;
   --panel-muted: #f5f7fb;
@@ -64,7 +64,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url('image/login_page.jpeg');
+  background-image: url('images/login_page.jpeg');
   background-size: cover;
   background-position: center center;
   filter: blur(6px) brightness(0.6);
