@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
+    <title>YieldSphere | Funding Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .page-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 20px 140px;
+        display: grid;
+        gap: 24px;
+      }
+
+      .site-header {
+        padding: 24px 20px 18px;
+      }
+
+      .brand-block {
+        padding-left: 4px;
+      }
+
+      .activity-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .activity-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 14px;
+      }
+
+      .activity-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px;
+        padding: 18px 20px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        align-items: center;
+      }
+
+      .activity-details {
+        display: grid;
+        gap: 6px;
+      }
+
+      .activity-type {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .activity-desc,
+      .activity-time {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .activity-time {
+        color: #94a3b8;
+      }
+
+      .activity-amount {
+        text-align: right;
+        font-weight: 700;
+        color: var(--text);
+        min-width: 110px;
+        white-space: nowrap;
+      }
+
+      .credit {
+        color: #2dd4bf;
+      }
+
+      .debit {
+        color: #facc15;
+      }
+
+      .activity-note {
+        margin: 0;
+        color: #94a3b8;
+        font-size: 0.85rem;
+      }
+
+      .quick-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .summary-card {
+        padding: 18px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      .summary-card h3 {
+        margin: 0 0 8px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+
+      .summary-card strong {
+        display: block;
+        font-size: 1.45rem;
+        color: var(--text);
+      }
+
+      @media (max-width: 760px) {
+        .activity-item {
+          grid-template-columns: 1fr;
+        }
+
+        .activity-amount {
+          text-align: left;
+        }
+
+        .quick-summary {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Funding details</p>
+        <h1>Financial activity</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="info-card" style="padding: 24px;">
+        <h2>All financial transactions</h2>
+        <div class="quick-summary">
+          <div class="summary-card">
+            <h3>Total balance change</h3>
+            <strong>+ 1,620.48 USDT</strong>
+          </div>
+          <div class="summary-card">
+            <h3>Last activity</h3>
+            <strong>Daily Check-in</strong>
+          </div>
+          <div class="summary-card">
+            <h3>Records stored</h3>
+            <strong id="recordCount">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-card" style="padding: 24px;">
+        <div class="activity-header">
+          <div>
+            <h2>Transaction history</h2>
+          </div>
+        </div>
+
+        <ul id="activityList" class="activity-list"></ul>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V7l8-4z" /><path d="M12 8v4M10 12h4" /></svg>
+        <span>Home</span>
+      </a>
+      <a href="product.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z" /><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" /></svg>
+        <span>Product</span>
+      </a>
+      <a href="news.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>
+        <span>News</span>
+      </a>
+      <a href="me.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+        <span>Me</span>
+      </a>
+    </nav>
+
+    <script src="database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const currentUser = await window.zellaDatabase?.getCurrentUser?.().catch(() => null);
+          if (!currentUser) {
+            window.location.replace('login.html');
+          }
+        } catch (error) {
+          window.location.replace('login.html');
+        }
+      })();
+    </script>
+    <script src="auth.js"></script>
+    <script>
+      function formatDateTime(value) {
+        if (!value) {
+          return 'Pending';
+        }
+        try {
+          return new Date(value).toLocaleString();
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function renderRecords(records) {
+        const list = document.getElementById('activityList');
+        const count = document.getElementById('recordCount');
+        list.innerHTML = '';
+        if (!records.length) {
+          list.innerHTML = '<li class="activity-item"><div class="activity-details"><p class="activity-type">No transactions yet</p><p class="activity-time">Your approved funding activity will appear here.</p></div></li>';
+          count.textContent = '0';
+          return;
+        }
+
+        records.forEach((record) => {
+          const item = document.createElement('li');
+          item.className = 'activity-item';
+          item.innerHTML = `
+            <div class="activity-details">
+              <p class="activity-type">${record.type}</p>
+              <p class="activity-desc">${record.description}</p>
+              <p class="activity-time">${record.datetime}</p>
+            </div>
+            <div class="activity-amount ${record.style}">${record.amount}</div>
+          `;
+          list.appendChild(item);
+        });
+
+        count.textContent = records.length;
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const currentUser = await window.zellaDatabase?.getCurrentUser?.().catch(() => null);
+          if (!currentUser) {
+            window.location.replace('login.html');
+            return;
+          }
+
+          const allTransactions = await window.zellaDatabase?.getTransactions?.().catch(() => []);
+          const userTransactions = (allTransactions || []).filter((transaction) => {
+            const userEmail = String(currentUser.email || '').toLowerCase();
+            return userEmail && String(transaction.userEmail || '').toLowerCase() === userEmail;
+          });
+
+          const approvedRecords = userTransactions
+            .filter((transaction) => String(transaction.status || '').toLowerCase() === 'completed')
+            .map((transaction) => {
+              const amountValue = Number(transaction.amount || 0);
+              return {
+                type: String(transaction.type || 'Deposit').replace(/^./, (char) => char.toUpperCase()),
+                description: transaction.note || 'Approved transaction',
+                datetime: formatDateTime(transaction.updatedAt || transaction.createdAt),
+                amount: `${amountValue >= 0 ? '+' : '-'}${Math.abs(amountValue).toFixed(2)} ${transaction.currency || 'USDT'}`,
+                style: amountValue >= 0 ? 'credit' : 'debit',
+              };
+            });
+
+          renderRecords(approvedRecords);
+        } catch (error) {
+          renderRecords([]);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Zella Capital | News</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .page-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 20px 140px;
+        display: grid;
+        gap: 24px;
+      }
+
+      .news-hero {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 24px;
+        padding: 30px 40px 30px 40px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        box-shadow: var(--shadow);
+      }
+
+      .news-hero-copy {
+        display: grid;
+        gap: 18px;
+        max-width: 620px;
+      }
+
+      .news-hero-copy p {
+        margin: 0;
+        color: #cbd5e1;
+        line-height: 1.8;
+      }
+
+      .news-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: rgba(45, 212, 191, 0.14);
+        border: 1px solid rgba(45, 212, 191, 0.28);
+        color: var(--accent);
+        font-size: 0.85rem;
+        font-weight: 700;
+        width: fit-content;
+      }
+
+      .news-visual {
+        min-height: 260px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(45, 212, 191, 0.16), rgba(14, 28, 60, 0.96));
+        display: grid;
+        place-items: center;
+      }
+
+      .news-visual svg {
+        width: 100%;
+        height: auto;
+      }
+
+      .news-grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .news-card {
+        display: grid;
+        gap: 24px;
+        padding: 40px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .news-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(45, 212, 191, 0.3);
+      }
+
+      .news-card a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .news-title {
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1.35;
+        font-weight: 700;
+      }
+
+      .news-excerpt {
+        margin: 0 0 60px;
+        color: #cbd5e1;
+        line-height: 1.8;
+      }
+
+      .news-meta {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-top: 10px;
+        color: #94a3b8;
+        font-size: 0.9rem;
+      }
+
+      .news-date {
+        font-weight: 600;
+      }
+
+      .news-date::before {
+        content: "📅";
+        margin-right: 8px;
+        opacity: 0.7;
+      }
+
+      .news-stats {
+        display: flex;
+        gap: 12px;
+      }
+
+      .news-stats span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .news-stats span:first-child::before {
+        content: "📈";
+      }
+
+      .news-stats span:last-child::before {
+        content: "❤️";
+      }
+
+      .news-stats span::before {
+        opacity: 0.75;
+      }
+
+      .news-meta strong {
+        color: var(--text);
+        font-weight: 700;
+      }
+
+
+      @media (max-width: 860px) {
+        .news-hero {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Latest updates</p>
+        <h1>Zella Capital News</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="news-hero">
+        <div class="news-hero-copy">
+          <span class="news-tag">📣 Company news</span>
+          <h2>Stay up to date with Zella Capital’s latest campaigns, market insights, and growth stories.</h2>
+          <p>Explore selected updates, seasonal offers, and strategic moves from our platform, with the most important news clearly presented for investors and partners.</p>
+        </div>
+        <div class="news-visual" aria-hidden="true">
+          <svg viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">
+            <rect x="16" y="40" width="208" height="154" rx="28" fill="rgba(255,255,255,0.08)" />
+            <rect x="36" y="64" width="160" height="18" rx="9" fill="#fff" opacity="0.12" />
+            <rect x="36" y="96" width="120" height="18" rx="9" fill="#fff" opacity="0.12" />
+            <rect x="36" y="128" width="180" height="18" rx="9" fill="#fff" opacity="0.12" />
+            <circle cx="92" cy="180" r="18" fill="#2dd4bf" />
+            <circle cx="152" cy="180" r="14" fill="#10b981" />
+            <line x1="38" y1="52" x2="202" y2="52" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+      </section>
+
+      <section class="news-grid" aria-label="News list">
+        <article class="news-card">
+          <a href="#">
+            <p class="news-title">🚀 Zella Capital 2026 launch promo: Get 10% bonus credit</p>
+            <p class="news-excerpt">Kick off the new year with a special launch offer across our investment packages and wallet top-up plans.</p>
+            <div class="news-meta">
+              <span class="news-date">01/01/2026 00:00</span>
+              <div class="news-stats">
+                <span>36,828 reads</span>
+                <span>20,305 likes</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="news-card">
+          <a href="#">
+            <p class="news-title">🤝 Building a culture of trusted growth at Zella Capital</p>
+            <p class="news-excerpt">Discover how our team combines safe funding, customer support, and transparent reporting for a better investor experience.</p>
+            <div class="news-meta">
+              <span class="news-date">18/12/2025 14:51</span>
+              <div class="news-stats">
+                <span>30,288 reads</span>
+                <span>12,817 likes</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="news-card">
+          <a href="#">
+            <p class="news-title">📊 Market outlook: Crypto-backed finance in 2026</p>
+            <p class="news-excerpt">Our latest research review examines the evolving market, premium return strategies, and the future of digital asset-backed plans.</p>
+            <div class="news-meta">
+              <span class="news-date">12/11/2025 12:00</span>
+              <div class="news-stats">
+                <span>25,215 reads</span>
+                <span>9,247 likes</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="news-card">
+          <a href="#">
+            <p class="news-title">📈 Zella Capital’s journey: From startup to premium finance service</p>
+            <p class="news-excerpt">Read our story and learn how Zella Capital built a stable funding platform focused on transparency and performance.</p>
+            <div class="news-meta">
+              <span class="news-date">30/10/2025 10:35</span>
+              <div class="news-stats">
+                <span>32,174 reads</span>
+                <span>19,065 likes</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="news-card">
+          <a href="#">
+            <p class="news-title">🌍 Expanding Zella Capital’s services into Ghana and West Africa</p>
+            <p class="news-excerpt">Our next phase brings local support, smarter funding options, and expanded access for regional investors.</p>
+            <div class="news-meta">
+              <span class="news-date">23/09/2025 10:25</span>
+              <div class="news-stats">
+                <span>25,438 reads</span>
+                <span>11,175 likes</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V7l8-4z" /><path d="M12 8v4M10 12h4" /></svg>
+        <span>Home</span>
+      </a>
+      <a href="product.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z" /><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" /></svg>
+        <span>Product</span>
+      </a>
+      <a href="news.html" class="nav-item active" aria-current="page">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>
+        <span>News</span>
+      </a>
+      <a href="me.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+        <span>Me</span>
+      </a>
+    </nav>
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

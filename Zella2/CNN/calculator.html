@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
+    <title>Zella Capital | Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="calculator.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Team income calculator</p>
+        <h1>Calculator</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <div class="page-shell">
+      <div class="calculator-card">
+        <div class="card-top">
+          <div>
+            <p class="eyebrow">Please enter your team size</p>
+            <h1>Project earnings</h1>
+            <p class="subtext">Select a product and team tier to estimate your daily and monthly income.</p>
+          </div>
+          <div class="header-links">
+            <a class="ghost-link" href="index.html">Back</a>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="inviteCount" class="field-label">People invited</label>
+          <input id="inviteCount" class="text-field" type="number" min="0" step="1" value="0" placeholder="Enter number of people invited" />
+          <p class="helper-text">Invite 2 or more people to see your estimated earnings.</p>
+        </div>
+
+        <div class="field-group">
+          <label for="productSelect" class="field-label">Product</label>
+          <select id="productSelect" class="select-field">
+            <option value="P-9000">P-9000</option>
+            <option value="P-9001">P-9001</option>
+            <option value="P-9002">P-9002</option>
+          </select>
+        </div>
+
+        <div class="results-card">
+          <p class="result-line">Your daily team earnings will be</p>
+          <p class="result-line">Your team's monthly income will be</p>
+          <p class="result-line">Your team's total income will be</p>
+        </div>
+
+        <button class="confirm-btn" type="button">Calculate earnings</button>
+      </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const currentUser = await window.zellaDatabase?.getCurrentUser?.().catch(() => null);
+          if (!currentUser) {
+            window.location.replace('login.html');
+          }
+        } catch (error) {
+          window.location.replace('login.html');
+        }
+      })();
+    </script>
+    <script src="auth.js"></script>
+    <script src="calculator.js"></script>
+    <footer class="site-footer">
+      <p>© 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+  </body>
+</html>

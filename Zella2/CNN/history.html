@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zella Capital | History</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Account history</p>
+        <h1>History</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="info-card" style="padding: 30px; width: min(760px,100%);">
+        <h2>Quick links</h2>
+        <p>Use these tools to calculate invite earnings or collect your daily check-in reward.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;">
+          <a class="primary-btn" href="calculator.html">Calculator</a>
+          <a class="secondary-btn" href="checkin.html">Check-in</a>
+        </div>
+      </section>
+
+      <section class="cards-row" aria-label="History summary" style="margin-top: 24px;">
+        <article class="info-card">
+          <h3>Recent activity</h3>
+          <p>View your latest account actions, check-in rewards, and invite earnings in one place.</p>
+        </article>
+        <article class="info-card">
+          <h3>Tools</h3>
+          <p>Jump to the calculator or check-in pages anytime from this history section.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

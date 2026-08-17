@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zella Capital | Recharge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #071127;
+        --text: #f8fafc;
+        --accent: #2dd4bf;
+        --accent-strong: #10b981;
+        --muted: #8394ab;
+        --deposit-card: rgba(255, 255, 255, 0.96);
+        --deposit-muted: #5f6f82;
+        --deposit-text: #122033;
+        --deposit-border: #d9e1ea;
+        --deposit-accent: #2563eb;
+        --deposit-accent-strong: #0f766e;
+        --deposit-soft: #e9f7f3;
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 24%),
+          linear-gradient(135deg, #020617 0%, var(--bg) 60%, #101b2d 100%);
+        color: var(--text);
+        min-height: 100vh;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(1.5rem, 2.4vw, 2.3rem);
+        font-weight: 800;
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        font-size: 0.72rem;
+        color: var(--accent);
+        margin: 0 0 8px;
+        font-weight: 700;
+      }
+
+      .site-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        width: min(950px, calc(100% - 32px));
+        margin: 36px auto 0;
+        padding: 38px 38px 0;
+        border-radius: 28px 28px 0 0;
+        background: #f8fafc;
+        font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-left: auto;
+      }
+      /* Dashboard link styled like the wallet page (deposit.css .site-nav a) */
+      .site-nav a {
+        color: var(--deposit-accent);
+        background: transparent;
+        border: 0;
+        padding: 0 0 6px;
+        font-size: 1.1rem;
+        text-decoration: none;
+      }
+
+      .page-shell {
+        width: min(950px, calc(100% - 32px));
+        min-height: calc(100vh - 320px);
+        margin: 0 auto;
+        padding: 0 38px 48px;
+        border-radius: 0 0 28px 28px;
+        background: #f8fafc;
+        color: var(--deposit-text);
+      }
+
+      .deposit-card {
+        width: 100%;
+        padding: 0;
+      }
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 26px;
+      }
+      .card-top h2 {
+        margin: 0 0 6px;
+        font-size: 2.25rem;
+      }
+
+      .steps {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 30px;
+      }
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex: 1;
+        min-height: 114px;
+        padding: 20px 16px;
+        border: 1px solid var(--deposit-border);
+        border-radius: 17px;
+        background: #f8fafc;
+        color: var(--deposit-muted);
+        font-size: 1.25rem;
+        font-weight: 400;
+        text-align: left;
+      }
+      .step b {
+        display: grid;
+        place-items: center;
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--deposit-accent);
+        color: #fff;
+        font-size: 1.1rem;
+      }
+      .step.active {
+        border-color: var(--deposit-border);
+        background: #f8fafc;
+        color: var(--deposit-muted);
+      }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .field-label {
+        color: var(--deposit-text);
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      .amount-input-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .amount-input-row .text-field {
+        flex: 1;
+      }
+      .text-field,
+      .select-field,
+      .currency-select {
+        min-height: 50px;
+        padding: 0 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        background: #fff;
+        color: var(--deposit-text);
+        font-family: inherit;
+        font-size: 16px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+      }
+      .text-field:focus,
+      .select-field:focus,
+      .currency-select:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);
+      }
+      .currency-select {
+        width: 148px;
+        cursor: pointer;
+      }
+      .select-field {
+        width: 100%;
+        cursor: pointer;
+      }
+      .helper-text {
+        margin: 0;
+        color: var(--deposit-muted);
+        font-size: 0.92rem;
+      }
+      .network-field {
+        margin-top: 8px;
+      }
+      .qr-panel {
+        display: grid;
+        place-items: center;
+        min-height: 290px;
+        padding: 28px;
+        border: 1px solid var(--deposit-border);
+        border-radius: 24px;
+        background: #f8fbff;
+        margin-bottom: 24px;
+      }
+      .qr-code {
+        width: min(340px, 80%);
+        max-width: 340px;
+        object-fit: contain;
+        aspect-ratio: 1;
+      }
+      .qr-panel p {
+        margin: 16px 0 0;
+        color: var(--deposit-muted);
+        font-size: 1rem;
+      }
+
+      .wallet-panel {
+        margin: 0 0 20px;
+        padding: 20px;
+        border: 1px solid var(--deposit-border);
+        border-radius: 18px;
+        background: #eef6ff;
+      }
+      .copy-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .copy-row output {
+        min-width: 0;
+        flex: 1;
+        padding: 13px 14px;
+        border: 1px solid var(--deposit-border);
+        border-radius: 12px;
+        background: #fff;
+        overflow-wrap: anywhere;
+        font-family: Consolas, monospace;
+        font-size: 12pt;
+      }
+      .copy-btn {
+        padding: 13px 18px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--deposit-accent-strong);
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .deposit-summary {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        margin: 20px 0;
+        padding: 16px;
+        border-radius: 14px;
+        background: #f8fbff;
+        color: var(--deposit-muted);
+      }
+      .deposit-summary strong {
+        color: var(--deposit-text);
+      }
+
+      .confirm-btn {
+        width: 100%;
+        padding: 14px 16px;
+        border: 0;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--deposit-accent-strong), var(--deposit-accent));
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .confirm-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      .popup-message {
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 280px;
+        max-width: 90%;
+        padding: 14px 18px;
+        border-radius: 18px;
+        background: rgba(15, 118, 110, 0.95);
+        color: #fff;
+        font-weight: 700;
+        text-align: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease-in-out;
+        z-index: 1000;
+      }
+      .popup-message.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .deposit-message {
+        min-height: 24px;
+        margin: 12px 0 0;
+        color: var(--deposit-accent-strong);
+        text-align: center;
+      }
+      .back-after-deposit {
+        display: block;
+        margin: 12px auto 0;
+        border: 0;
+        background: transparent;
+        color: var(--deposit-accent);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .site-footer {
+        text-align: center;
+        padding: 18px 0 8px;
+        color: #94a3b8;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 700px) {
+        .site-header {
+          padding: 24px 20px 0;
+        }
+        .page-shell {
+          padding: 0 20px 30px;
+        }
+        .steps {
+          flex-direction: column;
+        }
+        .step {
+          min-height: 70px;
+          font-size: 1rem;
+        }
+        .currency-select {
+          width: 110px;
+        }
+        .qr-panel {
+          min-height: 240px;
+          padding: 24px;
+        }
+        .qr-code {
+          width: min(170px, 78%);
+        }
+        .copy-row {
+          align-items: stretch;
+          flex-direction: column;
+        }
+        .copy-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav">
+        <a href="me.html" class="dashboard-link">Dashboard</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="deposit-card" aria-labelledby="deposit-title">
+        <div class="card-top">
+          <div>
+            <h2 id="deposit-title">Recharge</h2>
+            <p class="subtext">Transfer a supported amount to your account securely.</p>
+          </div>
+        </div>
+
+        <div class="steps" aria-label="Recharge steps">
+          <span class="step active"><b>1</b>Enter amount</span>
+          <span class="step"><b>2</b>Scan QR or copy address</span>
+          <span class="step"><b>3</b>Confirm transfer</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="depositAmount">Recharge amount</label>
+          <div class="amount-input-row">
+            <input id="depositAmount" class="text-field" type="number" step="1" placeholder="0.00" />
+            <select id="currencySelect" class="currency-select" aria-label="Currency">
+              <option value="USDT">USDT</option>
+              <option value="TRX">TRX</option>
+            </select>
+          </div>
+          <p class="helper-text">Minimum deposit: 30 USDT</p>
+        </div>
+
+        <div id="networkField" class="field-group network-field">
+          <label class="field-label" for="networkSelect">Network</label>
+          <select id="networkSelect" class="select-field">
+            <option value="TRON (TRC20)">TRON (TRC20)</option>
+            <option value="Ethereum (ERC20)">Ethereum (ERC20)</option>
+            <option value="BNB Smart Chain (BEP20)">BNB Smart Chain (BEP20)</option>
+          </select>
+        </div>
+
+        <div id="qrPanel" class="qr-panel" aria-label="Recharge QR code" hidden>
+          <img id="qrImage" class="qr-code" src="" alt="Recharge QR code" />
+          <p id="qrLabel"></p>
+        </div>
+
+        <div id="walletPanel" class="wallet-panel">
+          <div class="copy-row">
+            <output id="walletAddress">TNkfGRH8HUsBJNfeXz2FmqGLu2qT1uQMpG</output>
+            <button id="copyBtn" class="copy-btn" type="button">Copy</button>
+          </div>
+          <p id="copyMessage" class="helper-text" aria-live="polite"></p>
+        </div>
+
+        <div class="deposit-summary" aria-live="polite">
+          <span>Amount to recharge</span>
+          <strong id="summaryAmount">0.00 USDT</strong>
+        </div>
+
+        <div id="popupMessage" class="popup-message" role="alert" aria-live="assertive"></div>
+        <button id="confirmBtn" class="confirm-btn" type="button">Confirm</button>
+        <p id="depositMessage" class="deposit-message" aria-live="polite"></p>
+        <button id="backAfterDeposit" class="back-after-deposit" type="button" hidden>Back to previous page</button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var amountField = document.getElementById('depositAmount');
+        var networkSelect = document.getElementById('networkSelect');
+        var currencySelect = document.getElementById('currencySelect');
+        var walletAddress = document.getElementById('walletAddress');
+        var copyButton = document.getElementById('copyBtn');
+        var copyMessage = document.getElementById('copyMessage');
+        var summaryAmount = document.getElementById('summaryAmount');
+        var confirmButton = document.getElementById('confirmBtn');
+        var popupMessage = document.getElementById('popupMessage');
+        var depositMessage = document.getElementById('depositMessage');
+        var qrPanel = document.getElementById('qrPanel');
+        var qrImage = document.getElementById('qrImage');
+        var qrLabel = document.getElementById('qrLabel');
+        var backAfterDeposit = document.getElementById('backAfterDeposit');
+
+        var networkOptionsByCurrency = {
+          USDT: [
+            {
+              value: 'TRON (TRC20)',
+              label: 'USDT (TRC20)',
+              image: 'image/USDT%20(TRC20).jpeg',
+              address: 'TNkfGRH8HUsBJNfeXz2FmqGLu2qT1uQMpG'
+            },
+            {
+              value: 'Ethereum (ERC20)',
+              label: 'Ethereum (ERC20)',
+              image: 'image/USDT%20(ERC20).jpeg',
+              address: '0x830e5daee83cab8f5dd5bc582b7f3c433c07129a'
+            },
+            {
+              value: 'BNB Smart Chain (BEP20)',
+              label: 'BNB Smart Chain (BEP20)',
+              image: 'image/BSC%20(BEP20).jpeg',
+              address: '0x830e5daee83cab8f5dd5bc582b7f3c433c07129a'
+            }
+          ],
+          TRX: [
+            {
+              value: 'TRON',
+              label: 'TRON',
+              image: 'image/TRON%20(TRC20).jpeg',
+              address: 'TNkfGRH8HUsBJNfeXz2FmqGLu2qT1uQMpG'
+            }
+          ]
+        };
+
+        function showPopup(message) {
+          popupMessage.textContent = message;
+          popupMessage.classList.add('visible');
+          clearTimeout(showPopup.timer);
+          showPopup.timer = setTimeout(function () {
+            popupMessage.classList.remove('visible');
+          }, 3000);
+        }
+        function qrPlaceholderDataUri(text) {
+          var n = 29;
+          var cells = new Array(n * n).fill(false);
+
+          function setFinder(r0, c0) {
+            for (var r = 0; r < 7; r++) {
+              for (var c = 0; c < 7; c++) {
+                var dark =
+                  r === 0 || r === 6 || c === 0 || c === 6 ||
+                  (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+                cells[(r0 + r) * n + (c0 + c)] = dark;
+              }
+            }
+          }
+
+          setFinder(0, 0);
+          setFinder(0, n - 7);
+          setFinder(n - 7, 0);
+
+          var i;
+          for (i = 8; i < n - 8; i++) {
+            cells[i * n + 6] = i % 2 === 0;
+            cells[6 * n + i] = i % 2 === 0;
+          }
+
+          var seed = 2166136261;
+          for (i = 0; i < text.length; i++) {
+            seed ^= text.charCodeAt(i);
+            seed = Math.imul(seed, 16777619) >>> 0;
+          }
+          var rnd = function () {
+            seed ^= seed << 13;
+            seed ^= seed >>> 17;
+            seed ^= seed << 5;
+            seed >>>= 0;
+            return seed / 4294967296;
+          };
+
+          var rects = '';
+          for (var r = 0; r < n; r++) {
+            for (var c = 0; c < n; c++) {
+              var inFinder = (r < 8 && c < 8) || (r < 8 && c >= n - 8) || (r >= n - 8 && c < 8);
+              if (!inFinder && !cells[r * n + c] && rnd() < 0.5) {
+                rects += '<rect x="' + c + '" y="' + r + '" width="1" height="1" fill="#111827"/>';
+              }
+            }
+          }
+
+          var svg =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + n + ' ' + n +
+            '" shape-rendering="crispEdges">' +
+            '<rect width="' + n + '" height="' + n + '" fill="#ffffff"/>' + rects + '</svg>';
+          return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+        }
+
+        function setQrImage(option) {
+          qrImage.onerror = function () {
+            qrImage.onerror = null;
+            qrImage.src = qrPlaceholderDataUri(option.address);
+          };
+          qrImage.src = option.image;
+        }
+
+        function currentNetworkOption() {
+          var list = networkOptionsByCurrency[currencySelect.value] || networkOptionsByCurrency.USDT;
+          for (var i = 0; i < list.length; i++) {
+            if (list[i].value === networkSelect.value) return list[i];
+          }
+          return list[0];
+        }
+        function updateSummary() {
+          var amount = parseFloat(amountField.value) || 0;
+          summaryAmount.textContent =
+            amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+            ' ' + currencySelect.value;
+        }
+
+        function updateDepositView() {
+          var list = networkOptionsByCurrency[currencySelect.value] || networkOptionsByCurrency.USDT;
+          var previous = networkSelect.value;
+          var keep = null;
+          list.forEach(function (option) {
+            if (option.value === previous) keep = option.value;
+          });
+          networkSelect.innerHTML = '';
+          list.forEach(function (option) {
+            var el = document.createElement('option');
+            el.value = option.value;
+            el.textContent = option.label;
+            networkSelect.appendChild(el);
+          });
+          networkSelect.value = keep || list[0].value;
+          var option = currentNetworkOption();
+          walletAddress.textContent = option.address;
+          qrLabel.textContent = option.label;
+          qrPanel.hidden = false;
+          setQrImage(option);
+          updateSummary();
+        }
+
+        currencySelect.addEventListener('change', updateDepositView);
+
+        networkSelect.addEventListener('change', function () {
+          var option = currentNetworkOption();
+          walletAddress.textContent = option.address;
+          qrLabel.textContent = option.label;
+          setQrImage(option);
+        });
+
+        amountField.addEventListener('input', updateSummary);
+
+        copyButton.addEventListener('click', function () {
+          var text = walletAddress.textContent;
+          function done() {
+            copyMessage.textContent = 'Wallet address copied.';
+          }
+          function fallbackCopy() {
+            try {
+              var ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              done();
+            } catch (error) {
+              copyMessage.textContent = 'Press Ctrl+C to copy the address.';
+            }
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, fallbackCopy);
+          } else {
+            fallbackCopy();
+          }
+        });
+
+        confirmButton.addEventListener('click', function () {
+          var amount = parseFloat(amountField.value) || 0;
+          if (amount <= 0) {
+            showPopup('Enter a recharge amount first.');
+            return;
+          }
+          if (amount < 30) {
+            showPopup('Minimum deposit is 30 USDT.');
+            return;
+          }
+          depositMessage.textContent =
+            'Recharge ready: ' + amount.toLocaleString() + ' ' + currencySelect.value +
+            ' via ' + networkSelect.value +
+            '. Transfer using the address above.';
+          backAfterDeposit.hidden = false;
+          showPopup('Recharge details ready');
+        });
+
+        backAfterDeposit.addEventListener('click', function () {
+          window.location.href = 'index.html';
+        });
+
+        updateDepositView();
+      })();
+    </script>
+  </body>
+</html>

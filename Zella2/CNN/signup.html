@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zella Capital | Signup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="signup-only">
+  <div class="page-shell">
+    <section class="form-panel" aria-label="Signup form" id="register">
+      <div class="card" id="authCard">
+        <div class="card-header">
+          <p class="eyebrow">ZELLA CAPITAL</p>
+          <h2>Create your account</h2>
+          <p class="subtext">Start your secure financial journey with a new account.</p>
+        </div>
+
+        <form id="signupForm" novalidate>
+          <div class="field-group">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" type="text" placeholder="Jane Doe" required>
+          </div>
+
+          <div class="field-group">
+            <label for="signupEmail">Email address</label>
+            <input id="signupEmail" name="signupEmail" type="email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="field-group password-group">
+            <label for="signupPassword">Password</label>
+            <div class="password-input-row">
+              <input id="signupPassword" name="signupPassword" type="password" placeholder="Create a password" required>
+              <button type="button" class="toggle-password-btn" data-target="signupPassword" aria-label="Show password">Show</button>
+            </div>
+          </div>
+
+          <div class="field-group confirm-password-group">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="password-input-row">
+              <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Re-enter password" required>
+              <button type="button" class="toggle-password-btn" data-target="confirmPassword" aria-label="Show confirmation password">Show</button>
+            </div>
+          </div>
+
+          <label class="checkbox-row terms">
+            <input id="terms" type="checkbox" required>
+            <span>I agree to the Terms of Service.</span>
+          </label>
+
+          <button type="submit" class="primary-btn">Create account</button>
+          <p class="form-message" role="alert"></p>
+        </form>
+
+        <p class="toggle-text">
+          Already have an account?
+          <a href="login.html#login" class="text-btn">Sign in</a>
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./auth.js"></script>
+</body>
+</html>

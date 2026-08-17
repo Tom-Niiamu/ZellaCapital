@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
+    <title>Zella Capital | Wallet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="deposit.css" />
+    <style>
+      .wallet-card {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .wallet-form {
+        display: grid;
+        gap: 16px;
+      }
+      .wallet-submit {
+        width: 100%;
+        padding: 14px 16px;
+        border: 0;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #0f766e, #2563eb);
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .wallet-message {
+        min-height: 24px;
+        margin: 0;
+        color: #0f766e;
+        font-weight: 600;
+      }
+      .wallet-message.error {
+        color: #b42318;
+      }
+      /* Match the forgot-password card spacing: smaller eyebrow, larger H2, roomy subtext */
+      .wallet-card .eyebrow {
+        font-size: 0.78rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 8px;
+      }
+
+      #wallet-title {
+        font-size: 1.75rem;
+        line-height: 1.1;
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+
+      .wallet-card .subtext {
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 12px;
+      }
+      /* Header layout: push the dashboard link to the right and let global nav styles apply */
+      .site-header { display: flex; align-items: center; gap: 16px; }
+      .site-header .site-nav { margin-left: auto; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Secure wallet</p>
+        <h1>Wallet</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="me.html" class="dashboard-link">Dashboard</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="deposit-card wallet-card" aria-labelledby="wallet-title">
+        <div class="card-top">
+          <div>
+            <p class="eyebrow">Wallet address</p>
+            <h2 id="wallet-title">Submit your wallet</h2>
+            <p class="subtext">Enter your wallet address below and submit it securely.</p>
+          </div>
+          <a class="ghost-link" href="index.html">Back</a>
+        </div>
+
+        <form id="walletForm" class="wallet-form" novalidate>
+          <div class="field-group">
+            <label class="field-label" for="walletAddressInput">Wallet address</label>
+            <input id="walletAddressInput" class="text-field" type="text" placeholder="Enter your wallet address" required />
+          </div>
+
+          <button type="submit" class="wallet-submit">Submit</button>
+          <p id="walletMessage" class="wallet-message" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const currentUser = await window.zellaDatabase?.getCurrentUser?.().catch(() => null);
+          if (!currentUser) {
+            window.location.replace('login.html');
+          }
+        } catch (error) {
+          window.location.replace('login.html');
+        }
+      })();
+    </script>
+    <script src="auth.js"></script>
+    <script src="wallet.js"></script>
+  </body>
+</html>

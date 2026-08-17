@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zella Capital | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="auth.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="hero-panel" aria-label="Product overview">
+        <div class="hero-content">
+          <p class="eyebrow">FARMING. INVESTMENT. GROWTH</p>
+          <h1>Grow your future with confidence.</h1>
+          <p class="hero-copy">
+            Explore trusted agricultural investments backed by quality farm produce, efficient production, and reliable distribution.
+          </p>
+          <ul class="benefits">
+            <li>Quality farm produce</li>
+            <li>Reliable production & distribution</li>
+            <li>Trusted agricultural investments</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="form-panel" aria-label="Login form" id="login">
+        <div class="card" id="authCard">
+          <div class="card-header">
+            <p class="eyebrow">ZELLA CAPITAL</p>
+            <h2>Welcome back</h2>
+            <p class="subtext">Log in to continue managing your account.</p>
+          </div>
+
+          <form id="loginForm" novalidate>
+            <div class="field-group">
+              <label for="email">Email address</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="field-group">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="row between">
+              <label class="checkbox-row">
+                <input type="checkbox">
+                <span>Remember me</span>
+              </label>
+              <a href="forgot.html" class="link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="primary-btn">Log in</button>
+            <p class="form-message" role="alert"></p>
+          </form>
+
+          <p class="toggle-text">
+            Don’t have an account?
+            <a href="signup.html#register" class="text-btn">Create one</a>
+          </p>
+
+          <p class="skip-text">
+            <a href="index.html?skip=1" class="text-btn">Skip for now</a>
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="./auth.js"></script>
+  </body>
+</html>

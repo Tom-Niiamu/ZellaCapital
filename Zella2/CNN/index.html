@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zella Capital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      (function () {
+        const currentPath = window.location.pathname;
+        const skipHome = new URLSearchParams(window.location.search).get('skip');
+        if (skipHome === '1' && (currentPath === '/' || currentPath.endsWith('/index.html') || currentPath.endsWith('/'))) {
+          window.history.replaceState(null, '', 'index.html');
+        }
+      })();
+    </script>
+  </head>
+  <body class="home-page">
+    <div class="app-shell" id="mainContent">
+      <header class="site-header">
+        <div class="brand-block">
+          <p class="eyebrow">Education-first portfolio intelligence</p>
+          <h1>Zella Capital</h1>
+        </div>
+        <nav class="site-nav">
+          <a href="login.html#login" class="auth-login-link">Login</a>
+          <a href="signup.html#register" class="auth-signup-link">Register</a>
+        </nav>
+      </header>
+
+      <section class="hero-section" id="overview">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow">Secure, modern finance education</p>
+            <h2>Investment tools built for clarity, confidence, and fast growth.</h2>
+            <p class="site-tagline">Zella Capital blends smart funding, daily rewards, and portfolio insights into a premium platform designed for serious traders and newcomers alike.</p>
+            <div class="hero-actions">
+              <a class="primary-btn" href="signup.html#register">Get started</a>
+              <a class="secondary-btn" href="product.html">Explore plans</a>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="hero-visual">
+              <img src="image/home-illustration.svg" alt="Financial dashboard illustration" />
+            </div>
+            <div class="metric-grid">
+              <div class="metric-card">
+                <h3>Daily return</h3>
+                <strong>+5.0%</strong>
+              </div>
+              <div class="metric-card">
+                <h3>Top package</h3>
+                <strong>P-9000</strong>
+              </div>
+              <div class="metric-card">
+                <h3>Fastest payout</h3>
+                <strong>24 hrs</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature-grid" aria-label="Platform highlights">
+        <article class="feature-card">
+          <h3>Trusted wallets</h3>
+          <p>Bind your wallet address securely with clear guidance for every step of your account setup.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Daily rewards</h3>
+          <p>Collect check-in bonuses, referral payouts, and package profits from a single dashboard.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Professional insights</h3>
+          <p>Track activity, account status, and funding history with clean interface details.</p>
+        </article>
+      </section>
+
+    </div>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-item active" aria-current="page">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V7l8-4z" /><path d="M12 8v4M10 12h4" /></svg>
+        <span>Home</span>
+      </a>
+      <a href="product.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z" /><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" /></svg>
+        <span>Product</span>
+      </a>
+      <a href="news.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>
+        <span>News</span>
+      </a>
+      <a href="me.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+        <span>Me</span>
+      </a>
+    </nav>
+
+    <!-- ONLY auth.js loads here. database.js is REMOVED. -->
+    <script type="module" src="./auth.js"></script>
+  </body>
+</html>

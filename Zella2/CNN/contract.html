@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zella Capital | Contract</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .contract-card {
+        padding: 24px;
+        border-radius: 30px;
+        background: transparent;
+        border: none;
+        box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
+        display: flex;
+        justify-content: center;
+      }
+
+      .site-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 22px 40px 18px;
+        font-size: clamp(1.35rem, 2vw, 1.8rem);
+        margin: 0;
+      }
+
+      .contract-image {
+        position: relative;
+        max-width: 900px;
+        width: min(100%, 900px);
+        overflow: hidden;
+        border-radius: 26px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: transparent;
+      }
+
+      .contract-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+        filter: none;
+        opacity: 1;
+      }
+
+      .signature-input {
+        position: absolute;
+        left: 34%;
+        width: 24%;
+        bottom: 9%;
+        padding: 8px 10px;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 14px;
+        line-height: 1.2;
+        font-weight: 400;
+        border: none;
+        background: transparent;
+        color: #0f172a;
+        box-shadow: none;
+        border-radius: 999px;
+        outline: none;
+      }
+
+      .signature-input::-webkit-textfield-decoration {
+        display: none;
+      }
+
+      .signature-input::-webkit-input-placeholder {
+        color: transparent;
+      }
+
+      .signature-input::placeholder {
+        color: transparent;
+      }
+
+      .signature-input:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      @media (max-width: 980px) {
+        .contract-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Contract document</p>
+        <h1>Business Cooperation Agreement</h1>
+      </div>
+      <button id="resetNameButton" class="reset-button" type="button">Reset name</button>
+    </header>
+
+    <main class="app-shell">
+      <section class="contract-card">
+        <div class="contract-image">
+          <div class="contract-image-inner">
+            <img src="image/certificate.jpeg" alt="Certificate preview" />
+          </div>
+          <input id="contractName" class="signature-input" type="text" placeholder="" aria-label="Signature input" />
+          <div id="contractNameDisplay" class="signature-display" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+    <button id="resetNameButton" class="reset-button" type="button">Reset name</button>
+
+    <style>
+      .signature-display {
+        position: absolute;
+        left: 34%;
+        width: 24%;
+        bottom: 9%;
+        padding: 8px 10px;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 14px;
+        line-height: 1.2;
+        font-weight: 400;
+        color: #0f172a;
+        white-space: pre-wrap;
+        display: none;
+      }
+
+      .signature-display.visible {
+        display: block;
+      }
+
+      .signature-input.hidden {
+        display: none;
+      }
+
+      .reset-button {
+        padding: 10px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: none;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .reset-button:hover {
+        background: rgba(255, 255, 255, 0.16);
+        transform: translateY(-1px);
+      }
+
+      .reset-button.visible {
+        display: inline-flex;
+      }
+    </style>
+
+    <script>
+      const NAME_STORAGE_KEY = 'contractName';
+      const nameInput = document.getElementById('contractName');
+      const nameDisplay = document.getElementById('contractNameDisplay');
+      const resetNameButton = document.getElementById('resetNameButton');
+
+      function showSavedName(name) {
+        nameDisplay.textContent = name;
+        nameDisplay.classList.add('visible');
+        nameInput.classList.add('hidden');
+        resetNameButton.classList.add('visible');
+      }
+
+      function initNameField() {
+        const savedName = localStorage.getItem(NAME_STORAGE_KEY);
+        if (savedName) {
+          showSavedName(savedName);
+        }
+      }
+
+      function saveName() {
+        const value = nameInput.value.trim();
+        if (!value) return;
+        localStorage.setItem(NAME_STORAGE_KEY, value);
+        showSavedName(value);
+      }
+
+      function resetName() {
+        localStorage.removeItem(NAME_STORAGE_KEY);
+        nameInput.value = '';
+        nameInput.classList.remove('hidden');
+        nameDisplay.textContent = '';
+        nameDisplay.classList.remove('visible');
+        resetNameButton.classList.remove('visible');
+        nameInput.focus();
+      }
+
+      nameInput.addEventListener('blur', saveName);
+      nameInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          nameInput.blur();
+        }
+      });
+
+      resetNameButton.addEventListener('click', resetName);
+
+      initNameField();
+    </script>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V7l8-4z" /><path d="M12 8v4M10 12h4" /></svg>
+        <span>Home</span>
+      </a>
+      <a href="product.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z" /><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" /></svg>
+        <span>Product</span>
+      </a>
+      <a href="news.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>
+        <span>News</span>
+      </a>
+      <a href="me.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+        <span>Me</span>
+      </a>
+    </nav>
+
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

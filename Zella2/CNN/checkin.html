@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
+    <title>Zella Capital | Check-in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="checkin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Daily rewards</p>
+        <h1>Check-in</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <div class="page-shell">
+      <div class="checkin-card">
+        <div class="card-top">
+          <div>
+            <p class="eyebrow">Membership level</p>
+            <h1>Check-in reward</h1>
+            <p class="subtext">Tap receive to collect your daily reward based on your VIP tier.</p>
+          </div>
+        </div>
+
+        <div class="checkin-table" role="table" aria-label="Check-in rewards">
+          <div class="table-row table-header" role="row">
+            <span>Membership level</span>
+            <span>Reward</span>
+          </div>
+          <div class="table-row active" role="row" data-vip="VIP1">
+            <span>VIP1</span>
+            <span>$0.20 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP2">
+            <span>VIP2</span>
+            <span>$1.00 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP3">
+            <span>VIP3</span>
+            <span>$4.00 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP4">
+            <span>VIP4</span>
+            <span>$8.00 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP5">
+            <span>VIP5</span>
+            <span>$16.00 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP6">
+            <span>VIP6</span>
+            <span>$40.00 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP7">
+            <span>VIP7</span>
+            <span>$100.00 per day</span>
+          </div>
+          <div class="table-row" role="row" data-vip="VIP8">
+            <span>VIP8</span>
+            <span>$250.00 per day</span>
+          </div>
+        </div>
+
+        <p id="receiveMessage" class="receive-message">Selected VIP: VIP1</p>
+        <button class="confirm-btn" type="button">Receive</button>
+        <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+      </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const currentUser = await window.zellaDatabase?.getCurrentUser?.().catch(() => null);
+          if (!currentUser) {
+            window.location.replace('login.html');
+          }
+        } catch (error) {
+          window.location.replace('login.html');
+        }
+      })();
+    </script>
+    <script src="auth.js"></script>
+    <script src="checkin.js"></script>
+
+    <footer class="site-footer">
+      <p>© 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+  </body>
+</html>

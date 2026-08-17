@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forgot password</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="signup-only">
+  <div class="page-shell">
+    <section class="form-panel" id="forgot-panel">
+      <div class="card" id="forgotCard">
+        <div class="card-header">
+          <p class="eyebrow">ZELLA CAPITAL</p>
+          <h2>Forgot password</h2>
+          <p class="subtext">Enter your email to receive a password reset link.</p>
+        </div>
+
+        <!-- Step 1: Request reset -->
+        <form id="forgotForm" novalidate>
+          <div class="field-group">
+            <label for="forgotEmail">Email address</label>
+            <input id="forgotEmail" name="forgotEmail" type="email" placeholder="you@example.com" required>
+          </div>
+
+          <button type="submit" class="primary-btn">Send reset link</button>
+          <p class="form-message" role="alert" id="forgotMessage"></p>
+        </form>
+
+        <!-- Step 2: Set new password (shown after clicking email link) -->
+        <form id="resetForm" style="display:none;" novalidate>
+          <div class="field-group password-group">
+            <label for="newPassword">New password</label>
+            <input id="newPassword" name="newPassword" type="password" placeholder="Create a new password" required>
+          </div>
+
+          <div class="field-group confirm-password-group">
+            <label for="confirmNewPassword">Confirm password</label>
+            <input id="confirmNewPassword" name="confirmNewPassword" type="password" placeholder="Re-enter password" required>
+          </div>
+
+          <button type="submit" class="primary-btn">Update password</button>
+          <p class="form-message" role="alert" id="resetMessage"></p>
+        </form>
+
+        <p class="toggle-text">Remembered? <a href="login.html#login" class="text-btn">Sign in</a></p>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./auth.js"></script>
+  <script type="module">
+    import { supabase } from './supabase.js'
+
+    const forgotForm = document.getElementById('forgotForm')
+    const resetForm = document.getElementById('resetForm')
+    const forgotMessage = document.getElementById('forgotMessage')
+    const resetMessage = document.getElementById('resetMessage')
+
+    function setMessage(el, text, type = 'error') {
+      el.textContent = text
+      el.className = `form-message ${type}`
+    }
+
+    // ============================================
+    // STEP 1: Send reset email
+    // ============================================
+    forgotForm.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      setMessage(forgotMessage, '')
+
+      const email = document.getElementById('forgotEmail').value.trim()
+      if (!email) {
+        setMessage(forgotMessage, 'Enter a valid email', 'error')
+        return
+      }
+
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/forgot.html'
+      })
+
+      if (error) {
+        setMessage(forgotMessage, error.message, 'error')
+        return
+      }
+
+      setMessage(forgotMessage, 'Check your email for the reset link.', 'success')
+    })
+
+    // ============================================
+    // STEP 2: Check if user arrived from reset email
+    // ============================================
+    async function checkForRecoverySession() {
+      const { data: { session } } = await supabase.auth.getSession()
+
+      // If user has a recovery session (from clicking email link), show reset form
+      if (session?.user?.recovery_sent_at) {
+        forgotForm.style.display = 'none'
+        resetForm.style.display = ''
+      }
+    }
+
+    checkForRecoverySession()
+
+    // ============================================
+    // STEP 3: Update password
+    
+    resetForm.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      setMessage(resetMessage, '')
+
+      const newPassword = document.getElementById('newPassword').value
+      const confirmNew = document.getElementById('confirmNewPassword').value
+
+      if (!newPassword || newPassword.length < 6) {
+        setMessage(resetMessage, 'Password must be at least 6 characters', 'error')
+        return
+      }
+
+      if (newPassword !== confirmNew) {
+        setMessage(resetMessage, 'Passwords do not match', 'error')
+        return
+      }
+
+      const { error } = await supabase.auth.updateUser({ password: newPassword })
+
+      if (error) {
+        setMessage(resetMessage, error.message, 'error')
+        return
+      }
+
+      setMessage(resetMessage, 'Password updated! Redirecting to login...', 'success')
+      setTimeout(() => {
+        window.location.href = 'login.html'
+      }, 1500)
+    })
+  </script>
+</body>
+</html>
