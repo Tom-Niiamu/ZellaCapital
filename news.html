@@ -9,6 +9,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <style>
+      /* White theme for the News page (no background picture) */
+      body {
+        background: #ffffff !important;
+        color: #122033;
+        min-height: 100vh;
+      }
+
+      .site-header {
+        background: transparent;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      }
+
+      .site-header .eyebrow,
+      .brand-block .eyebrow {
+        color: #0f766e;
+      }
+
+      .site-header h1,
+      .brand-block h1 {
+        color: #0f172a;
+      }
+
+      .site-nav a {
+        color: #0f172a;
+        background: rgba(15, 23, 42, 0.04);
+        border: 1px solid rgba(15, 23, 42, 0.10);
+      }
+
+      .news-hero {
+        background: #ffffff;
+        border: 1px solid rgba(15, 23, 42, 0.10);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      }
+
+      .news-hero-copy h2 {
+        color: #0f172a;
+      }
+
+      .news-hero-copy p {
+        color: #475569;
+      }
+
+      .news-visual {
+        background: linear-gradient(135deg, rgba(45, 212, 191, 0.16), rgba(14, 28, 60, 0.96));
+      }
+
+      .news-card {
+        background: #ffffff;
+        border: 1px solid rgba(15, 23, 42, 0.10);
+        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+      }
+
+      .news-card .news-title {
+        color: #0f172a;
+      }
+
+      .news-excerpt {
+        color: #475569;
+      }
+
+      .news-meta {
+        color: #64748b;
+      }
+
+      .bottom-nav {
+        background: rgba(255, 255, 255, 0.92);
+        border-top: 1px solid rgba(15, 23, 42, 0.10);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav-item {
+        color: #64748b;
+      }
+
+      .nav-item.active {
+        color: #0f766e;
+      }
+
+      .nav-item.active svg {
+        stroke: #0f766e;
+      }
+
       .page-shell {
         max-width: 1100px;
         margin: 0 auto;
