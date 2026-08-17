@@ -34,22 +34,28 @@ function updateAuthUI(currentUser) {
 
   loginLinks.forEach((link) => {
     if (currentUser) {
-      link.textContent = displayName;
-      link.setAttribute('href', 'me.html');
+      link.textContent = 'Recharge';
+      link.setAttribute('href', 'recharge.html');
+      link.classList.replace('auth-login-link', 'btn-recharge'); // Optional: for styling
     } else {
       link.textContent = link.dataset.defaultLabel || 'Login';
       link.setAttribute('href', 'login.html#login');
+      link.classList.remove('btn-recharge');
     }
     link.style.display = '';
   });
 
   signupLinks.forEach((link) => {
     if (currentUser) {
-      link.style.display = 'none';
+      link.textContent = 'Withdraw';
+      link.setAttribute('href', 'wallet.html'); // Assuming Withdraw is in wallet
+      link.classList.replace('auth-signup-link', 'btn-withdraw');
+      link.style.display = '';
     } else {
       link.style.display = '';
       link.textContent = link.dataset.defaultLabel || 'Register';
       link.setAttribute('href', 'signup.html#register');
+      link.classList.remove('btn-withdraw');
     }
   });
 
@@ -123,7 +129,7 @@ function getPageNameFromHref(href) {
 
 function isProtectedPage(pageName) {
   const protectedPages = new Set([
-    'me.html', 'wallet.html', 'checkin.html', 'calculator.html',
+    'wallet.html', 'checkin.html', 'calculator.html',
     'funding_details.html', 'history.html', 'recharge.html', 'contract.html',
   ]);
   return protectedPages.has(pageName);

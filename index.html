@@ -1,89 +1,61 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zella Capital</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <script>
-      (function () {
-        const currentPath = window.location.pathname;
-        const skipHome = new URLSearchParams(window.location.search).get('skip');
-        if (skipHome === '1' && (currentPath === '/' || currentPath.endsWith('/index.html') || currentPath.endsWith('/'))) {
-          window.history.replaceState(null, '', 'index.html');
-        }
-      })();
-    </script>
-  </head>
-  <body class="home-page">
-    <div class="app-shell" id="mainContent">
-      <header class="site-header">
-        <div class="brand-block">
-          <p class="eyebrow">Education-first portfolio intelligence</p>
-          <h1>Zella Capital</h1>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Zella Capital</div>
+        <div class="icons">
+            <span>+</span>
+            <span>⌲</span>
         </div>
-        <nav class="site-nav">
-          <a href="login.html#login" class="auth-login-link">Login</a>
-          <a href="signup.html#register" class="auth-signup-link">Register</a>
-        </nav>
-      </header>
+    </header>
 
-      <section class="hero-section" id="overview">
-        <div class="hero-panel">
-          <div class="hero-copy">
-            <p class="eyebrow">Secure, modern finance education</p>
-            <h2>Investment tools built for clarity, confidence, and fast growth.</h2>
-            <p class="site-tagline">Zella Capital blends smart funding, daily rewards, and portfolio insights into a premium platform designed for serious traders and newcomers alike.</p>
-            <div class="hero-actions">
-              <a class="primary-btn" href="signup.html#register">Get started</a>
-              <a class="secondary-btn" href="product.html">Explore plans</a>
-            </div>
-          </div>
-
-          <div class="hero-card">
-            <div class="hero-visual">
-              <img src="images/home-illustration.svg" alt="Financial dashboard illustration" />
-            </div>
-            <div class="metric-grid">
-              <div class="metric-card">
-                <h3>Daily return</h3>
-                <strong>+5.0%</strong>
-              </div>
-              <div class="metric-card">
-                <h3>Top package</h3>
-                <strong>P-9000</strong>
-              </div>
-              <div class="metric-card">
-                <h3>Fastest payout</h3>
-                <strong>24 hrs</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="feature-grid" aria-label="Platform highlights">
-        <article class="feature-card">
-          <h3>Trusted wallets</h3>
-          <p>Bind your wallet address securely with clear guidance for every step of your account setup.</p>
-        </article>
-        <article class="feature-card">
-          <h3>Daily rewards</h3>
-          <p>Collect check-in bonuses, referral payouts, and package profits from a single dashboard.</p>
-        </article>
-        <article class="feature-card">
-          <h3>Professional insights</h3>
-          <p></p>
-        </article>
-      </section>
-
+    <div class="carousel">
+        <div class="carousel-item"></div>
     </div>
+
+    <section class="grid-menu">
+        <div class="menu-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div>Invite</div>
+        </div>
+        <div class="menu-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <div>Products</div>
+        </div>
+        <div class="menu-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            <div>Redeem</div>
+        </div>
+        <div class="menu-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div>Service</div>
+        </div>
+    </section>
+
+    <section class="action-buttons">
+        <button class="recharge">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="9" /><path d="M12 7v10" /><path d="M8.5 10.5 12 7l3.5 3.5" /></svg>
+            Recharge
+        </button>
+        <button class="withdraw">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="9" /><path d="M12 17V7" /><path d="M8.5 13.5 12 17l3.5-3.5" /></svg>
+            Withdraw
+        </button>
+    </section>
+
+    <section class="news">
+        <h2>News</h2>
+        <div class="news-card">
+            <div class="logo-placeholder">Zella Capital</div>
+            <p>Company Profile</p>
+        </div>
+    </section>
 
     <nav class="bottom-nav" aria-label="Main navigation">
       <a href="index.html" class="nav-item active" aria-current="page">
@@ -103,8 +75,6 @@
         <span>Me</span>
       </a>
     </nav>
-
-    <!-- ONLY auth.js loads here. database.js is REMOVED. -->
     <script type="module" src="./auth.js"></script>
-  </body>
+</body>
 </html>

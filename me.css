@@ -1,7 +1,7 @@
 ﻿:root {
   color-scheme: dark;
   --bg: #07111f;
-  --panel: rgba(10, 21, 37, 0.92);
+  --panel: rgba(10, 21, 37, 0.65);
   --panel-strong: #0f1d33;
   --muted: #8394ab;
   --text: #f8fafc;
@@ -143,7 +143,8 @@ body {
 
 /* Tab panel */
 .service-panel {
-  background: rgba(15, 23, 42, 0.84);
+  background: rgba(10, 21, 37, 0.65);
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 24px;
   overflow: hidden;

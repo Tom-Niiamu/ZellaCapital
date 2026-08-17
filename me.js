@@ -35,6 +35,21 @@ function updateStatsDisplay(stats = {}) {
   }
 }
 
+  // Refresh button
+  const refreshBtn = document.getElementById('refresh-btn')
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+
+  // Display Username
+  const userNameDisplay = document.getElementById('user-name-display')
+  if (userNameDisplay && currentUser) {
+    userNameDisplay.textContent = currentUser.fullName
+  }
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   const { data: { session } } = await supabase.auth.getSession()
   const currentUser = session ? normalizeUser(session.user) : null
