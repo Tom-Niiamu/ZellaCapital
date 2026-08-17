@@ -142,15 +142,23 @@ body {
 @media (max-width: 600px) {
     .news h2 {
         text-align: left;
+        font-size: 1.2rem;
     }
     #rotating-news {
         text-align: left;
+        padding: 15px;
     }
     #news-title {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-family: sans-serif;
     }
     #news-excerpt {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         text-align: justify;
+        line-height: 1.5;
+        margin-bottom: 0;
+        font-family: sans-serif;
     }
 }
