@@ -45,7 +45,7 @@ body {
   gap: 10px;
   padding: 10px 20px;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(58, 92, 199, 0.92), rgba(33, 45, 116, 0.92));
+  background: rgba(33, 45, 116, 0.92); /* Solid dark blue, no gradient */
   border: 1px solid rgba(76, 163, 255, 0.16);
   box-shadow: 0 18px 50px rgba(15, 38, 92, 0.35);
 }
@@ -95,8 +95,8 @@ body {
   gap: 40px;
   margin-top: 30px;
   padding-top: 10px;
+  text-align: left;
 }
-
 .product-card {
   background: rgba(10, 19, 38, 0.65);
   backdrop-filter: blur(12px);
@@ -147,8 +147,8 @@ body {
   margin: 0;
   font-size: 1.3rem;
   color: #fff;
-}
-/* Ensure all product titles use the same size as the first two cards */
+  text-align: left;
+}/* Ensure all product titles use the same size as the first two cards */
 
 .product-tier,
 .product-price {
