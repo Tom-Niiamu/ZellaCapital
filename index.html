@@ -51,11 +51,34 @@
 
     <section class="news">
         <h2>News</h2>
-        <div class="news-card">
-            <div class="logo-placeholder">Zella Capital</div>
-            <p>Company Profile</p>
+        <div id="rotating-news" class="news-card">
+            <!-- News will be injected here by script -->
+            <p id="news-title">Loading news...</p>
+            <p id="news-excerpt"></p>
         </div>
     </section>
+
+    <script>
+        const newsData = [
+            { title: "🤝 Building a culture of trusted growth at Zella Capital", excerpt: "Discover how our team combines safe funding, customer support, and transparent reporting for a better investor experience." },
+            { title: "📊 Market outlook: Crypto-backed finance in 2026", excerpt: "Our latest research review examines the evolving market, premium return strategies, and the future of digital asset-backed plans." },
+            { title: "📈 Zella Capital’s journey: From startup to premium finance service", excerpt: "Read our story and learn how Zella Capital built a stable funding platform focused on transparency and performance." },
+            { title: "🌍 Expanding Zella Capital’s services into Ghana and West Africa", excerpt: "Our next phase brings local support, smarter funding options, and expanded access for regional investors." }
+        ];
+
+        let currentIndex = 0;
+        const titleEl = document.getElementById('news-title');
+        const excerptEl = document.getElementById('news-excerpt');
+
+        function updateNews() {
+            titleEl.textContent = newsData[currentIndex].title;
+            excerptEl.textContent = newsData[currentIndex].excerpt;
+            currentIndex = (currentIndex + 1) % newsData.length;
+        }
+
+        updateNews(); // Initial call
+        setInterval(updateNews, 15000); // Rotate every 15 seconds
+    </script>
 
     <nav class="bottom-nav" aria-label="Main navigation">
       <a href="index.html" class="nav-item active" aria-current="page">
