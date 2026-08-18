@@ -35,6 +35,10 @@ function updateStatsDisplay(stats = {}) {
   }
 }
 
+document.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await supabase.auth.getSession()
+  const currentUser = session ? normalizeUser(session.user) : null
+
   // Refresh button
   const refreshBtn = document.getElementById('refresh-btn')
   if (refreshBtn) {
@@ -48,11 +52,6 @@ function updateStatsDisplay(stats = {}) {
   if (userNameDisplay && currentUser) {
     userNameDisplay.textContent = currentUser.fullName
   }
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const { data: { session } } = await supabase.auth.getSession()
-  const currentUser = session ? normalizeUser(session.user) : null
 
   const avatarInput = document.getElementById('avatar-input')
   const userAvatar = document.getElementById('user-avatar')
