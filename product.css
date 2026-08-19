@@ -23,7 +23,6 @@ body {
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background:
-    linear-gradient(rgba(2, 6, 23, 0.35), rgba(2, 6, 23, 0.45)),
     url('images/backgroundpic.jpeg') center / cover no-repeat fixed;
   color: var(--text);
 }
@@ -35,7 +34,26 @@ body {
 }
 
 .product-header {
+  /* The generic `header` rule in styles.css paints every <header> with a gray,
+     blurred panel + bottom border. For the product page we don't want that
+     second (gray) panel — the .product-intro card below is the ONE panel.
+     Neutralize the inherited styling so the two "merge" into a single card. */
   margin-bottom: 20px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  padding: 0;
+}
+
+.product-intro {
+  margin-top: 24px;
+  padding: 20px 24px;
+  border-radius: 28px;
+  background: rgba(6, 12, 26, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(76, 163, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(76, 163, 255, 0.06);
 }
 
 .product-topbar {
@@ -56,16 +74,6 @@ body {
   letter-spacing: 0.08em;
   color: #fff;
   text-transform: uppercase;
-}
-
-.product-intro {
-  margin-top: 24px;
-  padding: 20px 24px;
-  border-radius: 28px;
-  background: rgba(10, 19, 38, 0.65);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(76, 163, 255, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(76, 163, 255, 0.04);
 }
 
 .product-category {
@@ -98,9 +106,9 @@ body {
   text-align: left;
 }
 .product-card {
-  background: rgba(10, 19, 38, 0.65);
+  background: rgba(6, 12, 26, 0.88);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(76, 163, 255, 0.15);
+  border: 1px solid rgba(76, 163, 255, 0.16);
   border-radius: 30px;
   overflow: hidden;
   box-shadow: 0 30px 90px rgba(5, 11, 28, 0.35);
@@ -286,4 +294,42 @@ body {
   .product-cta {
     justify-items: start;
   }
+}
+
+/* ---- Join-now feedback + disabled state ---- */
+.product-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.2);
+}
+
+.product-feedback {
+  margin: 12px 2px 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+}
+
+.product-feedback--error {
+  background: rgba(220, 38, 38, 0.12);
+  border-color: rgba(248, 113, 113, 0.4);
+  color: #fca5a5;
+}
+
+.product-feedback--success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(52, 211, 153, 0.4);
+  color: #6ee7b7;
+}
+
+.product-feedback--info {
+  background: rgba(76, 163, 255, 0.1);
+  border-color: rgba(76, 163, 255, 0.3);
+  color: var(--accent-soft);
 }

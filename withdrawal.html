@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zella Capital | Withdrawal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #071127;
+        --text: #f8fafc;
+        --accent: #2dd4bf;
+        --accent-strong: #10b981;
+        --muted: #8394ab;
+        --deposit-card: rgba(255, 255, 255, 0.96);
+        --deposit-muted: #5f6f82;
+        --deposit-text: #122033;
+        --deposit-border: #d9e1ea;
+        --deposit-accent: #2563eb;
+        --deposit-accent-strong: #0f766e;
+        --deposit-soft: #e9f7f3;
+        color-scheme: dark;
+      }
+
+      * { box-sizing: border-box; }
+
+      [hidden] { display: none !important; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+        background:
+          linear-gradient(rgba(2, 6, 23, 0.82), rgba(2, 6, 23, 0.88)),
+          url('images/backgroundpic.jpeg') center / cover no-repeat fixed;
+        color: var(--text);
+        min-height: 100vh;
+      }
+
+      h1, h2, h3, p { margin: 0; }
+      h1 { font-size: clamp(1.5rem, 2.4vw, 2.3rem); font-weight: 800; }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        font-size: 0.72rem;
+        color: var(--accent);
+        margin: 0 0 8px;
+        font-weight: 700;
+      }
+
+      .site-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        width: min(950px, calc(100% - 32px));
+        margin: 36px auto 0;
+        padding: 38px 38px 0;
+        border-radius: 28px 28px 0 0;
+        background: #f8fafc;
+        font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+      }
+
+      .site-nav { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+      .site-nav a {
+        color: var(--deposit-accent);
+        background: transparent;
+        border: 0;
+        padding: 0 0 6px;
+        font-size: 1.1rem;
+        text-decoration: none;
+      }
+
+      .page-shell {
+        width: min(950px, calc(100% - 32px));
+        min-height: calc(100vh - 320px);
+        margin: 0 auto;
+        padding: 0 38px 48px;
+        border-radius: 0 0 28px 28px;
+        background: #f8fafc;
+        color: var(--deposit-text);
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 26px;
+      }
+      .card-top h2 { margin: 0 0 6px; font-size: 2.25rem; }
+
+      .field-group { margin-bottom: 18px; }
+      .field-label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+        color: var(--deposit-text);
+      }
+      .text-field, .select-field {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid var(--deposit-border);
+        border-radius: 14px;
+        font: inherit;
+        font-size: 1rem;
+        background: #fff;
+        color: var(--deposit-text);
+      }
+      .text-field:focus, .select-field:focus {
+        outline: 2px solid var(--deposit-accent);
+        border-color: var(--deposit-accent);
+      }
+      .helper-text { font-size: 0.85rem; color: var(--deposit-muted); margin-top: 6px; }
+
+      .balance-card {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 20px;
+        border-radius: 16px;
+        background: var(--deposit-soft);
+        border: 1px solid var(--deposit-border);
+        margin-bottom: 24px;
+      }
+      .balance-card .label { font-weight: 600; color: var(--deposit-muted); }
+      .balance-card .value { font-size: 1.6rem; font-weight: 800; color: var(--deposit-accent-strong); }
+
+      .button-row { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+      .primary-btn, .secondary-btn {
+        flex: 1;
+        min-width: 160px;
+        padding: 15px 18px;
+        border-radius: 999px;
+        font: inherit;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border: 0;
+      }
+      .primary-btn { background: linear-gradient(135deg, #0f766e, #2563eb); color: #fff; }
+      .secondary-btn {
+        background: rgba(15, 23, 42, 0.06);
+        color: var(--deposit-text);
+        border: 1px solid var(--deposit-border);
+      }
+
+      .message {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        min-height: 20px;
+      }
+      .message.error { background: #fef2f2; color: #b42318; border: 1px solid #fecaca; }
+      .message.info { background: var(--deposit-soft); color: var(--deposit-accent-strong); border: 1px solid var(--deposit-border); }
+
+      .popup {
+        position: fixed;
+        left: 50%;
+        bottom: 32px;
+        transform: translateX(-50%);
+        background: #0f172a;
+        color: #fff;
+        padding: 14px 22px;
+        border-radius: 12px;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 50;
+      }
+      .popup.visible { opacity: 1; }
+
+      .ghost-link { color: var(--deposit-accent); text-decoration: none; font-weight: 600; }
+      .footer-note { margin-top: 22px; font-size: 0.85rem; color: var(--deposit-muted); line-height: 1.6; }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Withdraw funds</p>
+        <h1>Withdrawal</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="deposit-card" aria-labelledby="withdraw-title">
+        <div class="card-top">
+          <div>
+            <p class="eyebrow">Available to withdraw</p>
+            <h2 id="withdraw-title">Request a withdrawal</h2>
+            <p class="helper-text">Use the same wallet / payment method you used to recharge.</p>
+          </div>
+          <a class="ghost-link" href="index.html">Back</a>
+        </div>
+
+        <div class="balance-card">
+          <span class="label">Available Balance</span>
+          <span class="value" id="availableBalance">Loadingâ€¦</span>
+        </div>
+
+        <form id="withdrawForm" novalidate>
+          <div class="field-group">
+            <label class="field-label" for="withdrawAmount">Withdrawal Amount</label>
+            <input id="withdrawAmount" class="text-field" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required />
+            <p class="helper-text">Minimum withdrawal is 30 USDT.</p>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="withdrawMethod">Withdrawal Method</label>
+            <select id="withdrawMethod" class="select-field" required>
+              <option value="">Select a methodâ€¦</option>
+              <option value="USDT (TRC20)">USDT (TRC20)</option>
+              <option value="USDT (ERC20)">USDT (ERC20)</option>
+              <option value="BNB Smart Chain (BEP20)">BNB Smart Chain (BEP20)</option>
+              <option value="TRON">TRON</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="withdrawAddress">Account / Wallet Address</label>
+            <input id="withdrawAddress" class="text-field" type="text" placeholder="Enter your wallet address or account" required />
+          </div>
+
+          <div class="field-group" id="networkGroup" hidden>
+            <label class="field-label" for="withdrawNetwork">Network</label>
+            <select id="withdrawNetwork" class="select-field">
+              <option value="">Select a networkâ€¦</option>
+              <option value="TRC20">TRC20</option>
+              <option value="ERC20">ERC20</option>
+              <option value="BEP20">BEP20</option>
+            </select>
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="primary-btn" id="confirmWithdraw">Confirm Withdrawal</button>
+            <a class="secondary-btn" href="index.html">Cancel</a>
+          </div>
+
+          <p id="withdrawMessage" class="message" aria-live="polite" hidden></p>
+
+          <p class="footer-note">
+            Withdrawal processing is not currently connected. When you confirm, your request is
+            prepared but not submitted â€” no balance is deducted and no transaction record is created.
+            This is a frontend limitation; backend withdrawal processing is required to complete it.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <div class="popup" id="withdrawPopup"></div>
+
+    <footer class="site-footer">
+      <p>Â© 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+
+    <script type="module" src="database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const { data: { session } } = await import('./supabase.js').then(m => m.supabase.auth.getSession());
+          if (!session) {
+            window.location.replace('login.html');
+            return;
+          }
+        } catch (error) {
+          window.location.replace('login.html');
+          return;
+        }
+
+        const supabase = (await import('./supabase.js')).supabase;
+        const balanceEl = document.getElementById('availableBalance');
+        const form = document.getElementById('withdrawForm');
+        const amountField = document.getElementById('withdrawAmount');
+        const methodField = document.getElementById('withdrawMethod');
+        const addressField = document.getElementById('withdrawAddress');
+        const networkGroup = document.getElementById('networkGroup');
+        const networkField = document.getElementById('withdrawNetwork');
+        const messageEl = document.getElementById('withdrawMessage');
+        const popupEl = document.getElementById('withdrawPopup');
+
+        let availableBalance = 0;
+
+        // READ-ONLY balance from the existing frontend data source (profiles.balance).
+        try {
+          const user = (await supabase.auth.getUser()).data.user;
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('balance')
+            .eq('id', user.id)
+            .single();
+          if (error) throw error;
+          availableBalance = Number(profile?.balance || 0);
+          balanceEl.textContent = availableBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';
+        } catch (err) {
+          availableBalance = 0;
+          balanceEl.textContent = 'Unavailable';
+          showMessage('We could not load your balance. Please try again later.', 'error');
+        }
+
+        function showMessage(text, type) {
+          messageEl.textContent = text;
+          messageEl.className = 'message ' + (type || 'info');
+          messageEl.hidden = false;
+        }
+
+        function showPopup(text) {
+          popupEl.textContent = text;
+          popupEl.classList.add('visible');
+          clearTimeout(showPopup.timer);
+          showPopup.timer = setTimeout(() => popupEl.classList.remove('visible'), 3000);
+        }
+
+        const cryptoMethods = ['USDT (TRC20)', 'USDT (ERC20)', 'BNB Smart Chain (BEP20)', 'TRON'];
+        methodField.addEventListener('change', () => {
+          const isCrypto = cryptoMethods.includes(methodField.value);
+          networkGroup.hidden = !isCrypto;
+          if (!isCrypto) networkField.value = '';
+        });
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const amount = parseFloat(amountField.value);
+          const method = methodField.value;
+          const address = addressField.value.trim();
+          const needsNetwork = cryptoMethods.includes(method);
+          const network = networkField.value;
+
+          if (!amountField.value || Number.isNaN(amount)) {
+            showMessage('Please enter a withdrawal amount.', 'error');
+            return;
+          }
+          if (amount <= 0) {
+            showMessage('Withdrawal amount must be greater than zero.', 'error');
+            return;
+          }
+          if (amount < 30) {
+            showMessage('Minimum withdrawal is 30 USDT.', 'error');
+            return;
+          }
+          if (amount > availableBalance) {
+            showMessage('Insufficient funds. Your withdrawal amount exceeds your available balance.', 'error');
+            return;
+          }
+          if (!method) {
+            showMessage('Please select a withdrawal method.', 'error');
+            return;
+          }
+          if (!address) {
+            showMessage('Please enter your account or wallet address.', 'error');
+            return;
+          }
+          if (needsNetwork && !network) {
+            showMessage('Please select a network for the selected method.', 'error');
+            return;
+          }
+
+          // IMPORTANT: backend withdrawal processing is NOT connected.
+          // No balance is deducted and no database record is created.
+          showMessage(
+            'Withdrawal unavailable â€” your request has been prepared, but withdrawal processing is not currently connected. No balance was deducted and no transaction was recorded.',
+            'info'
+          );
+          showPopup('Withdrawal processing not connected');
+        });
+      })();
+    </script>
+    <script type="module" src="auth.js"></script>
+  </body>
+</html>

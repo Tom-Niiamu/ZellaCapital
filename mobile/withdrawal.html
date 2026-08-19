@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Zella Capital | Withdrawal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="mobile.css" />
+    <style>
+      :root {
+        --deposit-soft: #e9f7f3;
+        --deposit-border: #d9e1ea;
+        --deposit-text: #122033;
+        --deposit-accent: #2563eb;
+        --deposit-accent-strong: #0f766e;
+        --deposit-muted: #5f6f82;
+      }
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      .product-app { max-width: 720px; margin: 0 auto; padding: 20px 16px 140px; }
+      .profile-header { display: flex; align-items: center; gap: 15px; margin-bottom: 22px; }
+      .eyebrow { text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; color: var(--accent); margin: 0 0 6px; font-weight: 700; }
+      h1 { font-size: 1.7rem; font-weight: 800; margin: 0; }
+
+      .balance-card {
+        display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+        padding: 16px 18px; border-radius: 16px; background: #e9f7f3; border: 1px solid #d9e1ea; margin-bottom: 20px;
+      }
+      .balance-card .label { font-weight: 600; color: #5f6f82; }
+      .balance-card .value { font-size: 1.4rem; font-weight: 800; color: #0f766e; }
+
+      .field-group { margin-bottom: 16px; }
+      .field-label { display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 7px; color: var(--deposit-text); }
+      .text-field, .select-field {
+        width: 100%; padding: 13px 15px; border: 1px solid var(--deposit-border); border-radius: 14px;
+        font: inherit; font-size: 1rem; background: #fff; color: var(--deposit-text);
+      }
+      .text-field:focus, .select-field:focus { outline: 2px solid var(--deposit-accent); border-color: var(--deposit-accent); }
+      .helper-text { font-size: 0.82rem; color: var(--deposit-muted); margin-top: 6px; }
+
+      .button-row { display: flex; gap: 12px; margin-top: 8px; }
+      .primary-btn, .secondary-btn {
+        flex: 1; min-width: 0; padding: 14px 16px; border-radius: 999px; font: inherit; font-weight: 700;
+        text-align: center; text-decoration: none; cursor: pointer; border: 0;
+      }
+      .primary-btn { background: linear-gradient(135deg, #0f766e, #2563eb); color: #fff; }
+      .secondary-btn { background: rgba(15,23,42,0.06); color: var(--deposit-text); border: 1px solid var(--deposit-border); }
+
+      .message { margin-top: 16px; padding: 13px 15px; border-radius: 14px; font-weight: 600; font-size: 0.9rem; min-height: 18px; }
+      .message.error { background: #fef2f2; color: #b42318; border: 1px solid #fecaca; }
+      .message.info { background: var(--deposit-soft); color: var(--deposit-accent-strong); border: 1px solid var(--deposit-border); }
+
+      .popup {
+        position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%);
+        background: #0f172a; color: #fff; padding: 13px 20px; border-radius: 12px; font-weight: 600;
+        opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 60;
+      }
+      .popup.visible { opacity: 1; }
+      .footer-note { margin-top: 18px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6; }
+      .ghost-link { color: var(--deposit-accent); text-decoration: none; font-weight: 600; }
+    </style>
+  </head>
+
+  <body>
+    <div class="product-app">
+      <header class="profile-header">
+        <div class="brand-block">
+          <p class="eyebrow">Withdraw funds</p>
+          <h1>Withdrawal</h1>
+        </div>
+      </header>
+
+      <section class="deposit-card" aria-labelledby="withdraw-title">
+        <div class="card-top" style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:20px;">
+          <div>
+            <p class="eyebrow">Available to withdraw</p>
+            <h1 id="withdraw-title" style="font-size:1.6rem;">Request a withdrawal</h1>
+            <p class="helper-text">Use the same wallet / payment method you used to recharge.</p>
+          </div>
+          <a class="ghost-link" href="index.html">Back</a>
+        </div>
+
+        <div class="balance-card">
+          <span class="label">Available Balance</span>
+          <span class="value" id="availableBalance">Loadingâ€¦</span>
+        </div>
+
+        <form id="withdrawForm" novalidate>
+          <div class="field-group">
+            <label class="field-label" for="withdrawAmount">Withdrawal Amount</label>
+            <input id="withdrawAmount" class="text-field" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required />
+            <p class="helper-text">Minimum withdrawal is 30 USDT.</p>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="withdrawMethod">Withdrawal Method</label>
+            <select id="withdrawMethod" class="select-field" required>
+              <option value="">Select a methodâ€¦</option>
+              <option value="USDT (TRC20)">USDT (TRC20)</option>
+              <option value="USDT (ERC20)">USDT (ERC20)</option>
+              <option value="BNB Smart Chain (BEP20)">BNB Smart Chain (BEP20)</option>
+              <option value="TRON">TRON</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="withdrawAddress">Account / Wallet Address</label>
+            <input id="withdrawAddress" class="text-field" type="text" placeholder="Enter your wallet address or account" required />
+          </div>
+
+          <div class="field-group" id="networkGroup" hidden>
+            <label class="field-label" for="withdrawNetwork">Network</label>
+            <select id="withdrawNetwork" class="select-field">
+              <option value="">Select a networkâ€¦</option>
+              <option value="TRC20">TRC20</option>
+              <option value="ERC20">ERC20</option>
+              <option value="BEP20">BEP20</option>
+            </select>
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="primary-btn" id="confirmWithdraw">Confirm</button>
+            <a class="secondary-btn" href="index.html">Cancel</a>
+          </div>
+
+          <p id="withdrawMessage" class="message" aria-live="polite" hidden></p>
+
+          <p class="footer-note">
+            Withdrawal processing is not currently connected. When you confirm, your request is
+            prepared but not submitted â€” no balance is deducted and no transaction record is created.
+            This is a frontend limitation; backend withdrawal processing is required to complete it.
+          </p>
+        </form>
+      </section>
+    </div>
+
+    <div class="popup" id="withdrawPopup"></div>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V7l8-4z" /><path d="M12 8v4M10 12h4" /></svg>
+        <span>Home</span>
+      </a>
+      <a href="product.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z" /><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" /></svg>
+        <span>Product</span>
+      </a>
+      <a href="news.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>
+        <span>News</span>
+      </a>
+      <a href="me.html" class="nav-item active" aria-current="page">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+        <span>Me</span>
+      </a>
+    </nav>
+
+    <script src="../device-route.js"></script>
+    <script type="module" src="../database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const { data: { session } } = await import('../supabase.js').then(m => m.supabase.auth.getSession());
+          if (!session) {
+            window.location.replace('login.html');
+            return;
+          }
+        } catch (error) {
+          window.location.replace('login.html');
+          return;
+        }
+
+        const supabase = (await import('../supabase.js')).supabase;
+        const balanceEl = document.getElementById('availableBalance');
+        const form = document.getElementById('withdrawForm');
+        const amountField = document.getElementById('withdrawAmount');
+        const methodField = document.getElementById('withdrawMethod');
+        const addressField = document.getElementById('withdrawAddress');
+        const networkGroup = document.getElementById('networkGroup');
+        const networkField = document.getElementById('withdrawNetwork');
+        const messageEl = document.getElementById('withdrawMessage');
+        const popupEl = document.getElementById('withdrawPopup');
+
+        let availableBalance = 0;
+
+        try {
+          const user = (await supabase.auth.getUser()).data.user;
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('balance')
+            .eq('id', user.id)
+            .single();
+          if (error) throw error;
+          availableBalance = Number(profile?.balance || 0);
+          balanceEl.textContent = availableBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';
+        } catch (err) {
+          availableBalance = 0;
+          balanceEl.textContent = 'Unavailable';
+          showMessage('We could not load your balance. Please try again later.', 'error');
+        }
+
+        function showMessage(text, type) {
+          messageEl.textContent = text;
+          messageEl.className = 'message ' + (type || 'info');
+          messageEl.hidden = false;
+        }
+        function showPopup(text) {
+          popupEl.textContent = text;
+          popupEl.classList.add('visible');
+          clearTimeout(showPopup.timer);
+          showPopup.timer = setTimeout(() => popupEl.classList.remove('visible'), 3000);
+        }
+
+        const cryptoMethods = ['USDT (TRC20)', 'USDT (ERC20)', 'BNB Smart Chain (BEP20)', 'TRON'];
+        methodField.addEventListener('change', () => {
+          const isCrypto = cryptoMethods.includes(methodField.value);
+          networkGroup.hidden = !isCrypto;
+          if (!isCrypto) networkField.value = '';
+        });
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const amount = parseFloat(amountField.value);
+          const method = methodField.value;
+          const address = addressField.value.trim();
+          const needsNetwork = cryptoMethods.includes(method);
+          const network = networkField.value;
+
+          if (!amountField.value || Number.isNaN(amount)) {
+            showMessage('Please enter a withdrawal amount.', 'error'); return;
+          }
+          if (amount <= 0) {
+            showMessage('Withdrawal amount must be greater than zero.', 'error'); return;
+          }
+          if (amount < 30) {
+            showMessage('Minimum withdrawal is 30 USDT.', 'error'); return;
+          }
+          if (amount > availableBalance) {
+            showMessage('Insufficient funds. Your withdrawal amount exceeds your available balance.', 'error'); return;
+          }
+          if (!method) {
+            showMessage('Please select a withdrawal method.', 'error'); return;
+          }
+          if (!address) {
+            showMessage('Please enter your account or wallet address.', 'error'); return;
+          }
+          if (needsNetwork && !network) {
+            showMessage('Please select a network for the selected method.', 'error'); return;
+          }
+
+          showMessage(
+            'Withdrawal unavailable â€” your request has been prepared, but withdrawal processing is not currently connected. No balance was deducted and no transaction was recorded.',
+            'info'
+          );
+          showPopup('Withdrawal processing not connected');
+        });
+      })();
+    </script>
+    <script type="module" src="../auth.js"></script>
+  </body>
+</html>

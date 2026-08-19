@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
+    <title>Zella Capital | Invite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../pages.css" />
+    <link rel="stylesheet" href="mobile.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Refer a friend</p>
+        <h1>Invite</h1>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Sign in</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="page-card" aria-label="Invite friends">
+        <h2>Share your invite link</h2>
+        <p class="subtext">Invite friends to Zella Capital and earn rewards together when they join.</p>
+
+        <div class="referral-box">
+          <input id="referralLink" class="referral-link" type="text" readonly aria-label="Your invite link" />
+          <button id="copyBtn" class="copy-btn" type="button">Copy</button>
+        </div>
+
+        <div class="share-grid">
+          <a id="shareWhatsApp" class="share-btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <a id="shareEmail" class="share-btn" href="#">Email</a>
+          <a id="shareSMS" class="share-btn" href="#">SMS</a>
+        </div>
+
+        <p class="invite-note">Your invite link is generated from your account. Share it to start earning referral rewards.</p>
+        <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+      </section>
+    </main>
+
+    <script type="module" src="../database.js"></script>
+    <script>
+      (async () => {
+        try {
+          const currentUser = await window.zellaDatabase?.getCurrentUser?.().catch(() => null);
+          if (!currentUser) {
+            window.location.replace('login.html');
+            return;
+          }
+
+          const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+          const referralLink = base + 'signup.html?ref=' + encodeURIComponent(currentUser.id);
+
+          const linkInput = document.getElementById('referralLink');
+          const text = 'Join me on Zella Capital: ' + referralLink;
+
+          linkInput.value = referralLink;
+
+          const toast = document.getElementById('toast');
+          const showToast = (message) => {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+          };
+
+          document.getElementById('copyBtn').addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(referralLink);
+              showToast('Invite link copied!');
+            } catch {
+              linkInput.select();
+              document.execCommand('copy');
+              showToast('Invite link copied!');
+            }
+          });
+
+          document.getElementById('shareWhatsApp').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+          });
+
+          document.getElementById('shareEmail').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'mailto:?subject=' + encodeURIComponent('Join me on Zella Capital') + '&body=' + encodeURIComponent(text);
+          });
+
+          document.getElementById('shareSMS').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'sms:?&body=' + encodeURIComponent(text);
+          });
+        } catch (error) {
+          window.location.replace('login.html');
+        }
+      })();
+    </script>
+    <script src="../device-route.js"></script>
+    <script type="module" src="../auth.js"></script>
+
+    <footer class="site-footer">
+      <p>© 2026 Zella Capital. Secure, transparent finance.</p>
+    </footer>
+  </body>
+</html>

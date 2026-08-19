@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="device-route.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Zella Capital</title>
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
     <header>
@@ -40,12 +40,12 @@
     </section>
 
     <section class="action-buttons">
-        <a class="recharge" href="recharge.html">
+        <a class="recharge" href="mobile/recharge.html">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="9" /><path d="M12 7v10" /><path d="M8.5 10.5 12 7l3.5 3.5" /></svg>
             Recharge
         </a>
 
-        <a class="withdraw" href="withdrawal.html">
+        <a class="withdraw" href="mobile/withdrawal.html">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="9" /><path d="M12 17V7" /><path d="M8.5 13.5 12 17l3.5-3.5" /></svg>
             Withdraw
         </a>
@@ -55,7 +55,6 @@
     <section class="news">
         <h2>News</h2>
         <div id="rotating-news" class="news-card">
-            <!-- News will be injected here by script -->
             <p id="news-title">Loading news...</p>
             <p id="news-excerpt"></p>
         </div>
@@ -65,8 +64,8 @@
         const newsData = [
             { title: "🤝 Building a culture of trusted growth at Zella Capital", excerpt: "Discover how our team combines safe funding, customer support, and transparent reporting for a better investor experience." },
             { title: "📊 Market outlook: Crypto-backed finance in 2026", excerpt: "Our latest research review examines the evolving market, premium return strategies, and the future of digital asset-backed plans." },
-            { title: "📈 Zella Capital’s journey: From startup to premium finance service", excerpt: "Read our story and learn how Zella Capital built a stable funding platform focused on transparency and performance." },
-            { title: "🌍 Expanding Zella Capital’s services into Ghana and West Africa", excerpt: "Our next phase brings local support, smarter funding options, and expanded access for regional investors." }
+            { title: "📈 Zella Capital's journey: From startup to premium finance service", excerpt: "Read our story and learn how Zella Capital built a stable funding platform focused on transparency and performance." },
+            { title: "🌍 Expanding Zella Capital's services into Ghana and West Africa", excerpt: "Our next phase brings local support, smarter funding options, and expanded access for regional investors." }
         ];
 
         let currentIndex = 0;
@@ -101,6 +100,7 @@
         <span>Me</span>
       </a>
     </nav>
-    <script type="module" src="./auth.js"></script>
+    <script src="../device-route.js"></script>
+    <script type="module" src="../auth.js"></script>
 </body>
 </html>

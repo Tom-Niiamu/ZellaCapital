@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <script src="device-route.js"></script>
-  <title>Zella Capital | Profile</title>
+    <title>Zella Capital | Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="me.css" />
+    <link rel="stylesheet" href="../me.css" />
+    <link rel="stylesheet" href="mobile.css" />
   </head>
   <body>
     <div class="product-app">
@@ -214,10 +214,11 @@
       </a>
     </nav>
 
-       <script>
+       <script src="../device-route.js"></script>
+    <script>
       (async () => {
         try {
-          const { data: { session } } = await import('./supabase.js').then(m => m.supabase.auth.getSession());
+          const { data: { session } } = await import('../supabase.js').then(m => m.supabase.auth.getSession());
           if (!session) {
             window.location.replace('login.html');
           }
@@ -226,7 +227,7 @@
         }
       })();
     </script>
-    <script type="module" src="./auth.js"></script>
-    <script type="module" src="./me.js"></script>
+    <script type="module" src="../auth.js"></script>
+    <script type="module" src="../me.js"></script>
   </body>
 </html>

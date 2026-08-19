@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script src="device-route.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Forgot password</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../auth.css">
+  <link rel="stylesheet" href="mobile.css">
 </head>
 <body class="signup-only">
   <div class="page-shell">
@@ -50,9 +50,10 @@
     </section>
   </div>
 
-  <script type="module" src="./auth.js"></script>
+  <script src="../device-route.js"></script>
+    <script type="module" src="../auth.js"></script>
   <script type="module">
-    import { supabase } from './supabase.js'
+    import { supabase } from '../supabase.js'
 
     const forgotForm = document.getElementById('forgotForm')
     const resetForm = document.getElementById('resetForm')
@@ -78,7 +79,7 @@
       }
 
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/forgot.html'
+        redirectTo: window.location.origin + '/mobile/forgot.html'
       })
 
       if (error) {
@@ -106,7 +107,8 @@
 
     // ============================================
     // STEP 3: Update password
-    
+    //
+
     resetForm.addEventListener('submit', async (e) => {
       e.preventDefault()
       setMessage(resetMessage, '')

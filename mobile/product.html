@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <script src="device-route.js"></script>
-  <title>Zella Capital | Product</title>
+    <title>Zella Capital | Product</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="product.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../product.css" />
+    <link rel="stylesheet" href="mobile.css" />
   </head>
   <body>
     <main class="product-page">
@@ -22,10 +22,10 @@
       </header>
 
       <section class="product-list" aria-label="Product packages">
-        <article class="product-card" data-product="Coco Farm" data-price="30">
+        <article class="product-card product-card--first" data-product="Coco Farm" data-price="30">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="images/coco_farm.jpeg" alt="Coco Farm" class="product-thumb" />
+              <img src="../images/coco_farm.jpeg" alt="Coco Farm" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Coco Farm</h2>
@@ -56,7 +56,7 @@
         <article class="product-card" data-product="BeanCraft Factory" data-price="70">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="images/BeanCraft_Factory.jpeg" alt="BeanCraft Factory" class="product-thumb" />
+              <img src="../images/BeanCraft_Factory.jpeg" alt="BeanCraft Factory" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>BeanCraft Factory</h2>
@@ -64,7 +64,7 @@
               <p class="product-price">Price: <strong>$70</strong></p>
             </div>
             <div class="product-cta">
-              <span class="product-badge badge-popular">Most popular</span>
+              <span class="product-badge badge-popular">Most Popular</span>
               <button type="button" class="product-button">Join now</button>
             </div>
           </div>
@@ -84,18 +84,18 @@
           </div>
         </article>
 
-        <article class="product-card" data-product="Storage Warehouse" data-price="150">
+        <article class="product-card product-card--compact" data-product="Storage Warehouse" data-price="150">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="images/Storage_warehouse.jpeg" alt="Storage Warehouse" class="product-thumb" />
+              <img src="../images/Storage_warehouse.jpeg" alt="Storage Warehouse" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Storage Warehouse</h2>
-              <p class="product-tier">## Accelerator Plan</p>
+              <p class="product-tier">Accelerator Plan</p>
               <p class="product-price">Price: <strong>$150</strong></p>
             </div>
             <div class="product-cta">
-              <span class="product-badge badge-popular">Most popular</span>
+              <span class="product-badge badge-popular">Most Popular</span>
               <button type="button" class="product-button">Join now</button>
             </div>
           </div>
@@ -115,14 +115,14 @@
           </div>
         </article>
 
-        <article class="product-card" data-product="Distribution Logistics" data-price="300">
+        <article class="product-card product-card--compact product-card--compact-name" data-product="Distribution Logistics" data-price="300">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="images/Distribution_logistics.jpeg" alt="Distribution Logistics" class="product-thumb" />
+              <img src="../images/Distribution_logistics.jpeg" alt="Distribution Logistics" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Distribution Logistics</h2>
-              <p class="product-tier">## Premium Plan</p>
+              <p class="product-tier">Premium Plan</p>
               <p class="product-price">Price: <strong>$300</strong></p>
             </div>
             <div class="product-cta">
@@ -149,11 +149,11 @@
         <article class="product-card" data-product="Market Distribution" data-price="600">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="images/Market-distribution.jpeg" alt="Market Distribution" class="product-thumb" />
+              <img src="../images/Market-distribution.jpeg" alt="Market Distribution" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Market Distribution</h2>
-              <p class="product-tier">## Elite Plan</p>
+              <p class="product-tier">Elite Plan</p>
               <p class="product-price">Price: <strong>$600</strong></p>
             </div>
             <div class="product-cta">
@@ -198,10 +198,11 @@
       </nav>
     </main>
 
-    <script type="module" src="database.js"></script>
-    <script type="module" src="auth.js"></script>
+    <script type="module" src="../database.js"></script>
+    <script src="../device-route.js"></script>
+    <script type="module" src="../auth.js"></script>
     <script>
-      // Product "Join now" — frontend guard layer.
+      // Product "Join now" — frontend guard layer (mobile).
       //
       // IMPORTANT: There is currently NO backend product-activation mechanism
       // in this codebase. `window.zellaDatabase` exposes only user/transaction
@@ -212,18 +213,15 @@
       //
       // What this script DOES (real, verifiable frontend behavior):
       //  - Guests are redirected to the existing login flow (auth.js already
-      //    treats "Join now" as a protected action and sends them to login.html;
-      //    this provides a belt-and-braces redirect before any guest click).
+      //    treats "Join now" as a protected action and sends them to login.html).
       //  - Logged-in users are stopped if their available balance (the existing
       //    source of truth, profiles.balance) is below the per-product price.
       //  - Each product uses its own price from the data-price attribute.
       //  - The button is disabled during the (existing) recharge funding flow so
       //    rapid/double clicks cannot spawn duplicate activation attempts.
-      //  - It does NOT fake a deduction or fake an "active" state. When the
-      //    backend activation endpoint is available, the marked TODO is the single
-      //    integration point — no second activation system is introduced here.
+      //  - It does NOT fake a deduction or fake an "active" state.
       (async () => {
-        const supabaseModule = await import('./supabase.js').catch(() => null);
+        const supabaseModule = await import('../supabase.js').catch(() => null);
         const supabase = supabaseModule?.supabase;
 
         async function getCurrentUser() {
@@ -235,9 +233,6 @@
           }
         }
 
-        // Reads the existing source of truth for wallet balance (profiles.balance).
-        // Returns 0 when not logged in or when the profile is unavailable — without
-        // inventing any balance ourselves.
         async function getAvailableBalance(user) {
           if (!user || !supabase) return 0;
           try {
@@ -266,15 +261,11 @@
         }
 
         function startActivationRedirect(button, productName) {
-          // Disable the button for the duration of the funding flow to prevent
-          // duplicate activation attempts from double/rapid clicks.
           button.disabled = true;
           const original = button.textContent;
           button.dataset.originalLabel = original;
           button.textContent = 'Processing…';
 
-          // Carry the selected product so the existing recharge/funding flow
-          // can be wired to the backend activation step when available.
           sessionStorage.setItem('zella_selected_product', productName);
 
           // TODO(backend): replace this redirect with the existing activation
@@ -294,7 +285,6 @@
 
             const user = await getCurrentUser();
             if (!user) {
-              // Not logged in: use the existing login redirect.
               window.location.href = 'login.html#login';
               return;
             }
@@ -313,8 +303,6 @@
           });
         });
 
-        // Re-enable any button left disabled if the user returns to this page
-        // without completing activation (e.g. browser back from recharge).
         window.addEventListener('pageshow', () => {
           document.querySelectorAll('.product-button[disabled]').forEach((button) => {
             button.disabled = false;
