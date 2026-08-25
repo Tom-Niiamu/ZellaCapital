@@ -225,16 +225,11 @@
     </nav>
 
     <script>
-      (async () => {
-        try {
-          const { data: { session } } = await import('./supabase.js').then(m => m.supabase.auth.getSession());
-          if (!session) {
-            window.location.replace('login.html');
-          }
-        } catch (error) {
-          window.location.replace('login.html');
-        }
-      })();
+      // NOTE: The Me / profile page is intentionally PUBLIC. Guests may view it;
+      // only the personalised stats (balance, orders, etc.) require a login.
+      // The auth guard in auth.js does NOT list me.html as a protected page, so
+      // we must NOT force-redirect guests here. me.js renders the gated data
+      // only when a session exists.
     </script>
     <script type="module" src="./auth.js"></script>
     <script type="module" src="./me.js"></script>

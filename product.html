@@ -303,24 +303,22 @@
 
       async function init() {
         const user = await getCurrentUser();
-        if (!user) {
-          window.location.href = 'login.html';
-          return;
-        }
 
-        // Show balance
-        const balance = await getWalletBalance(user.id);
-        walletBalanceAmount.textContent = '$' + balance.toFixed(2);
-
-        // Load products and activations
+        // Products are PUBLIC — always render them so guests can browse.
         await loadProducts();
-        await loadMyActivations(user.id);
 
-        // Wire up Join Now buttons
+        // Wire up Join Now buttons.
         document.querySelectorAll('.product-button').forEach(button => {
           button.addEventListener('click', async (event) => {
             event.preventDefault();
             if (button.disabled) return;
+
+            // Guests must log in before they can activate a product.
+            const currentUser = await getCurrentUser();
+            if (!currentUser) {
+              window.location.href = 'login.html';
+              return;
+            }
 
             const card = button.closest('.product-card');
             const productId = card?.dataset.productId;
@@ -377,6 +375,19 @@
             }
           });
         });
+
+        if (!user) {
+          // Guest view: products are visible, but personal balance &
+          // activations require login.
+          walletBalanceAmount.textContent = 'Log in to view';
+          myProductsSection.hidden = true;
+          return;
+        }
+
+        // Logged-in user: show balance & active products.
+        const balance = await getWalletBalance(user.id);
+        walletBalanceAmount.textContent = '$' + balance.toFixed(2);
+        await loadMyActivations(user.id);
       }
 
       init();
