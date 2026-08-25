@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <script src="device-route.js"></script>
-  <title>Zella Capital | Profile</title>
+    <title>Zella Capital | Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,7 +12,17 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="me.css" />
-  </head>
+    <style>
+      /* Redeem bonus "coming soon" toast */
+      .popup-message {
+        position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+        min-width: 280px; max-width: 90%; padding: 14px 18px; border-radius: 18px;
+        background: rgba(15,118,110,0.95); color: #fff; font-weight: 700; text-align: center;
+        opacity: 0; pointer-events: none; transition: opacity 0.25s ease-in-out; z-index: 1000;
+      }
+      .popup-message.visible { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
   <body>
     <div class="product-app">
       <header class="profile-header">
@@ -85,7 +95,7 @@
 
         <div id="service-panel" class="tab-content active" role="tabpanel">
           <nav class="service-grid" aria-label="Service menu">
-            <a href="checkin.html" class="service-item">
+            <a href="#" class="service-item js-redeem-bonus" role="button">
               <span class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <rect x="3" y="8" width="18" height="12" rx="2" />
@@ -214,7 +224,7 @@
       </a>
     </nav>
 
-       <script>
+    <script>
       (async () => {
         try {
           const { data: { session } } = await import('./supabase.js').then(m => m.supabase.auth.getSession());
@@ -228,5 +238,58 @@
     </script>
     <script type="module" src="./auth.js"></script>
     <script type="module" src="./me.js"></script>
+
+    <!-- Auto-refresh balance every 10 seconds -->
+    <script type="module">
+      import { supabase } from './supabase.js';
+
+      async function refreshBalance() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from('wallets')
+          .select('balance')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Balance fetch error:', error);
+          return;
+        }
+
+        if (data) {
+          document.getElementById('stat-balance').textContent = '$' + Number(data.balance).toFixed(2);
+        }
+      }
+
+      // Initial fetch on page load
+      refreshBalance();
+
+      // Auto-refresh every 10 seconds
+      setInterval(refreshBalance, 10000);
+
+      // Manual refresh when clicking the refresh button
+      document.getElementById('refresh-btn')?.addEventListener('click', refreshBalance);
+    </script>
+
+    <div id="redeemPopup" class="popup-message" role="alert" aria-live="assertive"></div>
+
+    <script>
+      (function () {
+        const redeemTriggers = document.querySelectorAll('.js-redeem-bonus');
+        const popup = document.getElementById('redeemPopup');
+        let redeemTimer;
+        redeemTriggers.forEach((el) => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            popup.textContent = 'Redeem bonus coming soon!';
+            popup.classList.add('visible');
+            clearTimeout(redeemTimer);
+            redeemTimer = setTimeout(() => popup.classList.remove('visible'), 2500);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

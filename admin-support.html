@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Support Tickets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root { --bg: #0f172a; --text: #f8fafc; --muted: #94a3b8; --accent: #2563eb; --success: #10b981; --warning: #f59e0b; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+      h1 { margin: 0 0 20px; font-size: 1.5rem; }
+      .tickets-grid { display: grid; gap: 16px; }
+      .ticket-card {
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(148,163,184,0.18);
+      }
+      .ticket-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .ticket-subject { font-weight: 700; font-size: 1.1rem; }
+      .ticket-status {
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .status-open { background: rgba(245,158,11,0.2); color: var(--warning); }
+      .status-in_progress { background: rgba(37,99,235,0.2); color: var(--accent); }
+      .status-resolved { background: rgba(16,185,129,0.2); color: var(--success); }
+      .ticket-meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 12px; }
+      .messages { max-height: 300px; overflow-y: auto; margin-bottom: 12px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,0.2); }
+      .msg { padding: 8px 12px; margin-bottom: 8px; border-radius: 10px; max-width: 80%; }
+      .msg-user { background: rgba(37,99,235,0.2); margin-left: auto; text-align: right; }
+      .msg-admin { background: rgba(255,255,255,0.1); }
+      .msg-sender { font-size: 0.7rem; color: var(--muted); margin-bottom: 2px; }
+      .reply-box { display: flex; gap: 8px; }
+      .reply-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid rgba(148,163,184,0.3);
+        border-radius: 10px;
+        background: rgba(255,255,255,0.05);
+        color: var(--text);
+        font-family: inherit;
+      }
+      .reply-btn {
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .resolve-btn {
+        padding: 6px 14px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--success);
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-left: 8px;
+      }
+      .no-tickets { text-align: center; color: var(--muted); padding: 40px; }
+      .refresh-btn {
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎫 Support Tickets</h1>
+    <button class="refresh-btn" onclick="loadTickets()">Refresh</button>
+    <div id="ticketsContainer" class="tickets-grid">
+      <div class="no-tickets">Loading tickets...</div>
+    </div>
+
+    <script type="module">
+      import { supabase } from './supabase.js';
+
+      const container = document.getElementById('ticketsContainer');
+
+      async function loadTickets() {
+        container.innerHTML = '<div class="no-tickets">Loading...</div>';
+
+        const { data: tickets, error } = await supabase
+          .from('support_tickets')
+          .select('*, profiles(full_name, email), support_messages(content, is_from_agent, created_at, sender_id)')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          container.innerHTML = '<div class="no-tickets">Error: ' + error.message + '</div>';
+          return;
+        }
+
+        if (!tickets || tickets.length === 0) {
+          container.innerHTML = '<div class="no-tickets">No tickets yet.</div>';
+          return;
+        }
+
+        container.innerHTML = tickets.map(t => {
+          const messages = t.support_messages || [];
+          return `
+            <div class="ticket-card" data-ticket-id="${t.id}">
+              <div class="ticket-header">
+                <span class="ticket-subject">${escapeHtml(t.subject)}</span>
+                <div>
+                  <span class="ticket-status status-${t.status}">${t.status}</span>
+                  ${t.status !== 'resolved' ? `<button class="resolve-btn" onclick="resolveTicket('${t.id}')">Resolve</button>` : ''}
+                </div>
+              </div>
+              <div class="ticket-meta">
+                From: ${t.profiles?.full_name || 'Unknown'} (${t.profiles?.email || 'no email'})<br>
+                Created: ${new Date(t.created_at).toLocaleString()}
+              </div>
+              <div class="messages" id="msgs-${t.id}">
+                ${messages.map(m => `
+                  <div class="msg ${m.is_from_agent ? 'msg-admin' : 'msg-user'}">
+                    <div class="msg-sender">${m.is_from_agent ? 'Admin' : 'User'}</div>
+                    ${escapeHtml(m.content)}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="reply-box">
+                <input type="text" class="reply-input" id="reply-${t.id}" placeholder="Type reply..." onkeypress="if(event.key==='Enter') sendReply('${t.id}')">
+                <button class="reply-btn" onclick="sendReply('${t.id}')">Reply</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Subscribe to all tickets
+        tickets.forEach(t => subscribeToTicket(t.id));
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function subscribeToTicket(ticketId) {
+        supabase
+          .channel('admin-ticket:' + ticketId)
+          .on('postgres_changes',
+            { event: 'INSERT', schema: 'public', table: 'support_messages', filter: 'ticket_id=eq.' + ticketId },
+            (payload) => {
+              const m = payload.new;
+              const msgsEl = document.getElementById('msgs-' + ticketId);
+              if (msgsEl) {
+                const div = document.createElement('div');
+                div.className = 'msg ' + (m.is_from_agent ? 'msg-admin' : 'msg-user');
+                div.innerHTML = '<div class="msg-sender">' + (m.is_from_agent ? 'Admin' : 'User') + '</div>' + escapeHtml(m.content);
+                msgsEl.appendChild(div);
+                msgsEl.scrollTop = msgsEl.scrollHeight;
+              }
+            }
+          )
+          .subscribe();
+      }
+
+      window.sendReply = async function(ticketId) {
+        const input = document.getElementById('reply-' + ticketId);
+        const text = input.value.trim();
+        if (!text) return;
+
+        input.disabled = true;
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        const { error } = await supabase.rpc('reply_to_ticket', {
+          p_ticket_id: ticketId,
+          p_sender_id: user.id,
+          p_content: text
+        });
+
+        if (error) {
+          alert('Failed: ' + error.message);
+        } else {
+          input.value = '';
+        }
+        input.disabled = false;
+      };
+
+      window.resolveTicket = async function(ticketId) {
+        const { error } = await supabase
+          .from('support_tickets')
+          .update({ status: 'resolved' })
+          .eq('id', ticketId);
+
+        if (error) {
+          alert('Failed: ' + error.message);
+        } else {
+          loadTickets();
+        }
+      };
+
+      // Check admin access
+      async function checkAdmin() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          window.location.href = 'login.html';
+          return;
+        }
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+
+        if (profile?.role !== 'admin' && profile?.role !== 'moderator') {
+          document.body.innerHTML = '<h1>Access Denied</h1><p>You must be an admin to view this page.</p>';
+          return;
+        }
+
+        loadTickets();
+      }
+
+      checkAdmin();
+    </script>
+  </body>
+</html>

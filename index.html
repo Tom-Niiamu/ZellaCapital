@@ -6,13 +6,57 @@
     <script src="device-route.js"></script>
   <title>Zella Capital</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pages.css">
+    <style>
+      /* Exact replica of the news page header. The news page only loads
+         styles.css (NOT pages.css), so its header uses styles.css header
+         padding (20px) plus default browser p/h1 sizing. pages.css would
+         otherwise shrink this header, so we override its rules back to the
+         news page's exact values. Only the eyebrow text differs
+         ("Welcome" vs "Latest updates"). */
+      .site-header {
+        padding: 20px;
+        background: transparent;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      .brand-block .eyebrow {
+        margin: 1em 0;          /* default <p> spacing */
+        font-size: 1em;         /* default ~16px */
+        letter-spacing: normal;
+        text-transform: none;
+        color: #93c5b1;
+        font-weight: 400;
+      }
+
+      /* Redeem bonus "coming soon" toast */
+      .popup-message {
+        position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+        min-width: 280px; max-width: 90%; padding: 14px 18px; border-radius: 18px;
+        background: rgba(15,118,110,0.95); color: #fff; font-weight: 700; text-align: center;
+        opacity: 0; pointer-events: none; transition: opacity 0.25s ease-in-out; z-index: 1000;
+      }
+      .popup-message.visible { opacity: 1; pointer-events: auto; }
+
+      .brand-block h1 {
+        margin: 0.67em 0;       /* default <h1> spacing */
+        font-size: 2em;         /* default ~32px */
+        font-weight: 700;
+        color: #f8fafc;
+      }
+
+      .site-nav a {
+        color: #cbd5e1;
+        background: transparent;
+        border: 0;
+      }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Zella Capital</div>
-        <div class="icons">
-            <span>+</span>
-            <span>⌲</span>
+    <header class="site-header">
+        <div class="brand-block">
+            <p class="eyebrow">Welcome</p>
+            <h1>Zella Capital</h1>
         </div>
     </header>
 
@@ -29,7 +73,7 @@
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <div>Product</div>
         </a>
-        <a class="menu-item" href="checkin.html">
+        <a class="menu-item js-redeem-bonus" href="#" role="button">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
             <div>Redeem bonus</div>
         </a>
@@ -81,6 +125,25 @@
 
         updateNews(); // Initial call
         setInterval(updateNews, 15000); // Rotate every 15 seconds
+    </script>
+
+    <div id="redeemPopup" class="popup-message" role="alert" aria-live="assertive"></div>
+
+    <script>
+      (function () {
+        const redeemTriggers = document.querySelectorAll('.js-redeem-bonus');
+        const popup = document.getElementById('redeemPopup');
+        let redeemTimer;
+        redeemTriggers.forEach((el) => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            popup.textContent = 'Redeem bonus coming soon!';
+            popup.classList.add('visible');
+            clearTimeout(redeemTimer);
+            redeemTimer = setTimeout(() => popup.classList.remove('visible'), 2500);
+          });
+        });
+      })();
     </script>
 
     <nav class="bottom-nav" aria-label="Main navigation">

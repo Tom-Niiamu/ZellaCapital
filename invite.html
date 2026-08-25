@@ -14,6 +14,19 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="pages.css" />
+    <style>
+      html, body { height: 100%; }
+      body { height: 100vh; overflow: hidden; }
+      .page-shell {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+      .page-card { padding: clamp(28px, 4vw, 40px); }
+    </style>
   </head>
   <body>
     <header class="site-header">
@@ -39,7 +52,6 @@
 
         <div class="share-grid">
           <a id="shareWhatsApp" class="share-btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
-          <a id="shareEmail" class="share-btn" href="#">Email</a>
           <a id="shareSMS" class="share-btn" href="#">SMS</a>
         </div>
 
@@ -90,11 +102,6 @@
             window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
           });
 
-          document.getElementById('shareEmail').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'mailto:?subject=' + encodeURIComponent('Join me on Zella Capital') + '&body=' + encodeURIComponent(text);
-          });
-
           document.getElementById('shareSMS').addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = 'sms:?&body=' + encodeURIComponent(text);
@@ -105,9 +112,5 @@
       })();
     </script>
     <script type="module" src="auth.js"></script>
-
-    <footer class="site-footer">
-      <p>© 2026 Zella Capital. Secure, transparent finance.</p>
-    </footer>
   </body>
 </html>

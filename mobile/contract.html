@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zella Capital | Contract</title>
+    <script src="device-route.js"></script>
+  <title>Zella Capital | Contract</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="mobile.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
       .contract-card {
         padding: 24px;
@@ -108,7 +108,7 @@
       <section class="contract-card">
         <div class="contract-image">
           <div class="contract-image-inner">
-            <img src="../images/certificate.jpeg" alt="Certificate preview" />
+            <img src="images/certificate.jpeg" alt="Certificate preview" />
           </div>
           <input id="contractName" class="signature-input" type="text" placeholder="" aria-label="Signature input" />
           <div id="contractNameDisplay" class="signature-display" aria-hidden="true"></div>
@@ -232,8 +232,7 @@
       </a>
     </nav>
 
-    <script type="module" src="../database.js"></script>
-    <script src="../device-route.js"></script>
-    <script type="module" src="../auth.js"></script>
+    <script type="module" src="database.js"></script>
+    <script type="module" src="auth.js"></script>
   </body>
 </html>

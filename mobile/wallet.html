@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
+    <script src="device-route.js"></script>
     <title>Zella Capital | Wallet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../deposit.css" />
-    <link rel="stylesheet" href="mobile.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="deposit.css" />
     <style>
       .wallet-card {
         max-width: 720px;
@@ -40,7 +39,6 @@
       .wallet-message.error {
         color: #b42318;
       }
-      /* Match the forgot-password card spacing: smaller eyebrow, larger H2, roomy subtext */
       .wallet-card .eyebrow {
         font-size: 0.78rem;
         letter-spacing: 0.24em;
@@ -49,23 +47,69 @@
         color: #2563eb;
         margin-bottom: 8px;
       }
-
       #wallet-title {
         font-size: 1.75rem;
         line-height: 1.1;
         margin-bottom: 6px;
         font-weight: 700;
       }
-
       .wallet-card .subtext {
         color: var(--muted);
         font-size: 1rem;
         line-height: 1.6;
         margin-bottom: 12px;
       }
-      /* Header layout: push the dashboard link to the right and let global nav styles apply */
       .site-header { display: flex; align-items: center; gap: 16px; }
       .site-header .site-nav { margin-left: auto; }
+
+      /* ===== NEW: Balance & Transaction Styles ===== */
+      .balance-section {
+        text-align: center;
+        padding: 24px;
+        background: linear-gradient(135deg, #0f766e, #2563eb);
+        border-radius: 16px;
+        color: white;
+        margin-bottom: 24px;
+      }
+      .balance-label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        opacity: 0.9;
+        margin-bottom: 8px;
+      }
+      .balance-amount {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0;
+      }
+      .transaction-section {
+        margin-top: 32px;
+      }
+      .transaction-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+        color: var(--text);
+      }
+      .txn-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: #f8fafc;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+      }
+      .txn-row.credit { border-left: 3px solid #0f766e; }
+      .txn-row.debit { border-left: 3px solid #b42318; }
+      .txn-type { font-weight: 600; text-transform: capitalize; }
+      .txn-amount { font-weight: 700; }
+      .txn-amount.credit { color: #0f766e; }
+      .txn-amount.debit { color: #b42318; }
+      .txn-desc { color: var(--muted); font-size: 0.8rem; flex: 1; margin: 0 12px; }
+      .txn-date { color: var(--muted); font-size: 0.75rem; }
+      .no-txns { color: var(--muted); text-align: center; padding: 24px; }
     </style>
   </head>
   <body>
@@ -84,21 +128,35 @@
         <div class="card-top">
           <div>
             <p class="eyebrow">Wallet address</p>
-            <h2 id="wallet-title">Submit your wallet</h2>
-            <p class="subtext">Enter your wallet address below and submit it securely.</p>
+            <h2 id="wallet-title">Your Wallet</h2>
+            <p class="subtext">View your balance, transaction history, and manage your withdrawal address.</p>
           </div>
           <a class="ghost-link" href="index.html">Back</a>
         </div>
 
+        <!-- ===== NEW: Balance Display ===== -->
+        <div class="balance-section">
+          <div class="balance-label">Available Balance</div>
+          <div id="walletBalance" class="balance-amount">$0.00</div>
+        </div>
+
+        <!-- Withdrawal Address Form -->
         <form id="walletForm" class="wallet-form" novalidate>
           <div class="field-group">
-            <label class="field-label" for="walletAddressInput">Wallet address</label>
+            <label class="field-label" for="walletAddressInput">Withdrawal Address</label>
             <input id="walletAddressInput" class="text-field" type="text" placeholder="Enter your wallet address" required />
           </div>
-
-          <button type="submit" class="wallet-submit">Submit</button>
+          <button type="submit" class="wallet-submit">Save Address</button>
           <p id="walletMessage" class="wallet-message" aria-live="polite"></p>
         </form>
+
+        <!-- ===== NEW: Transaction History ===== -->
+        <div class="transaction-section">
+          <h3>Recent Transactions</h3>
+          <div id="walletTransactions">
+            <div class="no-txns">Loading transactions...</div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -106,10 +164,8 @@
       <p>© 2026 Zella Capital. Secure, transparent finance.</p>
     </footer>
 
-    <script type="module" src="../database.js"></script>
-
-    <script src="../device-route.js"></script>
-    <script type="module" src="../auth.js"></script>
-    <script type="module" src="../wallet.js"></script>
+    <script type="module" src="database.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="wallet.js"></script>
   </body>
 </html>

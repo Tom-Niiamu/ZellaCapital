@@ -3,17 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Auth protection is handled by the async guard after database.js loads and by auth.js. -->
-    <title>Zella Capital | Chat</title>
+    <script src="device-route.js"></script>
+    <title>Zella Capital | Support</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../pages.css" />
-    <link rel="stylesheet" href="mobile.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="pages.css" />
+    <style>
+      .ticket-info {
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(148,163,184,0.18);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ticket-info h3 { margin: 0; font-size: 0.95rem; color: var(--text); }
+      .ticket-info span { font-size: 0.8rem; color: #94a3b8; text-transform: capitalize; }
+      .new-ticket-btn {
+        padding: 6px 14px;
+        border: 0;
+        border-radius: 999px;
+        background: #2563eb;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .msg-time { font-size: 0.7rem; color: #64748b; margin-top: 4px; }
+    </style>
   </head>
   <body>
     <header class="site-header">
@@ -29,9 +50,16 @@
 
     <main class="page-shell">
       <section class="chat-window" aria-label="Chat with support">
+        <div id="ticketInfo" class="ticket-info" hidden>
+          <h3 id="ticketSubject">Support Ticket</h3>
+          <span id="ticketStatus">open</span>
+          <button id="newTicketBtn" class="new-ticket-btn" type="button">New Ticket</button>
+        </div>
+
         <div id="chatMessages" class="chat-messages">
           <div class="msg bot">Hi there! 👋 Welcome to Zella Capital support. How can we help you today?</div>
         </div>
+
         <form id="chatForm" class="chat-input-row" autocomplete="off">
           <input id="chatInput" class="chat-input" type="text" placeholder="Type a message…" aria-label="Type a message" />
           <button class="chat-send" type="submit" aria-label="Send message">Send</button>
@@ -39,58 +67,172 @@
       </section>
     </main>
 
-    <script type="module" src="../database.js"></script>
-    <script>
-      (async () => {
-        try {
-          const { data: { session } } = await import('../supabase.js').then(m => m.supabase.auth.getSession());
-          if (!session) {
-            window.location.replace('login.html');
-            return;
-          }
-        } catch (error) {
-          window.location.replace('login.html');
-          return;
-        }
-
-        const messages = document.getElementById('chatMessages');
-        const form = document.getElementById('chatForm');
-        const input = document.getElementById('chatInput');
-
-        const addMessage = (text, who) => {
-          const el = document.createElement('div');
-          el.className = 'msg ' + who;
-          el.textContent = text;
-          messages.appendChild(el);
-          messages.scrollTop = messages.scrollHeight;
-        };
-
-        const replies = [
-          "Thanks for reaching out! A member of our team will follow up shortly.",
-          "You can also check the Me page for Wallet, Recharge and Redeem bonus options.",
-          "For funding help, open Funding details from your profile.",
-          "Is there anything else we can help you with?"
-        ];
-        let replyIndex = 0;
-
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const text = input.value.trim();
-          if (!text) return;
-          addMessage(text, 'me');
-          input.value = '';
-          setTimeout(() => {
-            addMessage(replies[replyIndex % replies.length], 'bot');
-            replyIndex += 1;
-          }, 500);
-        });
-      })();
-    </script>
-    <script src="../device-route.js"></script>
-    <script type="module" src="../auth.js"></script>
-
     <footer class="site-footer">
       <p>© 2026 Zella Capital. Secure, transparent finance.</p>
     </footer>
+
+    <script type="module" src="database.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module">
+      import { supabase } from './supabase.js';
+
+      const messagesEl = document.getElementById('chatMessages');
+      const form = document.getElementById('chatForm');
+      const input = document.getElementById('chatInput');
+      const ticketInfo = document.getElementById('ticketInfo');
+      const ticketSubject = document.getElementById('ticketSubject');
+      const ticketStatus = document.getElementById('ticketStatus');
+      const newTicketBtn = document.getElementById('newTicketBtn');
+
+      let activeTicketId = null;
+      let user = null;
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function addMessage(text, who, time) {
+        const el = document.createElement('div');
+        el.className = 'msg ' + who;
+        el.innerHTML = '<div class="msg-text">' + escapeHtml(text) + '</div>' +
+          (time ? '<div class="msg-time">' + new Date(time).toLocaleString() + '</div>' : '');
+        messagesEl.appendChild(el);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      async function getUser() {
+        const { data: { user: u } } = await supabase.auth.getUser();
+        if (!u) {
+          window.location.replace('login.html');
+          return null;
+        }
+        user = u;
+        return u;
+      }
+
+      async function findOpenTicket() {
+        const { data, error } = await supabase
+          .from('support_tickets')
+          .select('id, subject, status')
+          .eq('user_id', user.id)
+          .in('status', ['open', 'in_progress'])
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) { console.error('Ticket find error:', error); return null; }
+        return data && data.length > 0 ? data[0] : null;
+      }
+
+      async function loadMessages(ticketId) {
+        const { data, error } = await supabase
+          .from('support_messages')
+          .select('content, is_from_agent, created_at')
+          .eq('ticket_id', ticketId)
+          .order('created_at', { ascending: true });
+
+        if (error) { console.error('Messages load error:', error); return; }
+        messagesEl.innerHTML = '';
+        data.forEach(m => addMessage(m.content, m.is_from_agent ? 'bot' : 'me', m.created_at));
+      }
+
+      function subscribeToTicket(ticketId) {
+        const channel = supabase
+          .channel('ticket:' + ticketId)
+          .on('postgres_changes', 
+            { event: 'INSERT', schema: 'public', table: 'support_messages', filter: 'ticket_id=eq.' + ticketId },
+            (payload) => {
+              const m = payload.new;
+              addMessage(m.content, m.is_from_agent ? 'bot' : 'me', m.created_at);
+            }
+          )
+          .subscribe();
+      }
+
+      async function showTicket(ticket) {
+        activeTicketId = ticket.id;
+        ticketSubject.textContent = ticket.subject || 'Support Ticket';
+        ticketStatus.textContent = ticket.status;
+        ticketInfo.hidden = false;
+        input.placeholder = 'Reply to this ticket…';
+        await loadMessages(ticket.id);
+        subscribeToTicket(ticket.id);
+      }
+
+      function showCreateForm() {
+        activeTicketId = null;
+        ticketInfo.hidden = true;
+        messagesEl.innerHTML = '<div class="msg bot">No active tickets. Send a message below to create one.</div>';
+        input.placeholder = 'Describe your issue…';
+      }
+
+      async function init() {
+        const u = await getUser();
+        if (!u) return;
+        const ticket = await findOpenTicket();
+        if (ticket) {
+          await showTicket(ticket);
+        } else {
+          showCreateForm();
+        }
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text || !user) return;
+
+        if (!activeTicketId) {
+          input.disabled = true;
+          const { data: ticketId, error } = await supabase.rpc('create_support_ticket', {
+            p_user_id: user.id,
+            p_subject: text.length > 50 ? text.substring(0, 50) + '…' : text,
+            p_content: text
+          });
+
+          if (error) {
+            console.error('Create ticket error:', error);
+            addMessage('Failed: ' + error.message, 'bot');
+            input.disabled = false;
+            return;
+          }
+
+          messagesEl.innerHTML = '';
+          await showTicket({ id: ticketId, subject: text, status: 'open' });
+          input.disabled = false;
+        } else {
+          addMessage(text, 'me');
+          input.value = '';
+          input.disabled = true;
+
+          const { error } = await supabase.rpc('reply_to_ticket', {
+            p_ticket_id: activeTicketId,
+            p_sender_id: user.id,
+            p_content: text
+          });
+
+          if (error) {
+            console.error('Reply error:', error);
+            addMessage('Failed: ' + error.message, 'bot');
+          }
+          input.disabled = false;
+        }
+
+        input.value = '';
+        input.focus();
+      });
+
+      newTicketBtn.addEventListener('click', () => {
+        showCreateForm();
+      });
+
+      // Wait for DOM to be ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    </script>
   </body>
 </html>

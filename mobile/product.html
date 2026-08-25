@@ -3,13 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script src="device-route.js"></script>
     <title>Zella Capital | Product</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="../product.css" />
-    <link rel="stylesheet" href="mobile.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="product.css" />
+    <style>
+      .my-products {
+        margin: 0 0 24px;
+        padding: 20px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+      }
+      .my-products h2 {
+        margin: 0 0 16px;
+        font-size: 1.2rem;
+        color: var(--text);
+      }
+      .activation-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: rgba(45, 212, 191, 0.1);
+        border: 1px solid rgba(45, 212, 191, 0.3);
+        margin-bottom: 8px;
+      }
+      .activation-item .product-name { font-weight: 700; color: var(--text); }
+      .activation-item .product-price { color: #2dd4bf; font-weight: 700; }
+      .no-activations { color: #94a3b8; text-align: center; padding: 16px; }
+      .product-feedback {
+        margin: 8px 0 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        min-height: 20px;
+      }
+      .product-feedback--error { color: #f87171; }
+      .product-feedback--success { color: #2dd4bf; }
+      .product-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .wallet-balance-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        margin: 0 0 20px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #0f766e, #2563eb);
+        color: #fff;
+      }
+      .wallet-balance-bar span { font-size: 0.9rem; opacity: 0.9; }
+      .wallet-balance-bar strong { font-size: 1.3rem; }
+    </style>
   </head>
   <body>
     <main class="product-page">
@@ -21,11 +72,23 @@
         </div>
       </header>
 
+      <!-- Wallet Balance -->
+      <div class="wallet-balance-bar" id="walletBalanceBar">
+        <span>Your Balance</span>
+        <strong id="walletBalanceAmount">$0.00</strong>
+      </div>
+
+      <!-- My Active Products -->
+      <section class="my-products" id="myProductsSection" hidden>
+        <h2>My Active Products</h2>
+        <div id="myProductsList"></div>
+      </section>
+
       <section class="product-list" aria-label="Product packages">
-        <article class="product-card product-card--first" data-product="Coco Farm" data-price="30">
+        <article class="product-card" data-product="Coco Farm" data-price="30">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="../images/coco_farm.jpeg" alt="Coco Farm" class="product-thumb" />
+              <img src="images/coco_farm.jpeg" alt="Coco Farm" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Coco Farm</h2>
@@ -38,25 +101,16 @@
             </div>
           </div>
           <div class="product-stats">
-            <div class="stat-block">
-              <span class="stat-label">Validity period</span>
-              <strong class="stat-value">7 days</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Daily return</span>
-              <strong class="stat-value">$2</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Total earnings</span>
-              <strong class="stat-value">$14</strong>
-            </div>
+            <div class="stat-block"><span class="stat-label">Validity period</span><strong class="stat-value">7 days</strong></div>
+            <div class="stat-block"><span class="stat-label">Daily return</span><strong class="stat-value">$2</strong></div>
+            <div class="stat-block"><span class="stat-label">Total earnings</span><strong class="stat-value">$14</strong></div>
           </div>
         </article>
 
         <article class="product-card" data-product="BeanCraft Factory" data-price="70">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="../images/BeanCraft_Factory.jpeg" alt="BeanCraft Factory" class="product-thumb" />
+              <img src="images/BeanCraft_Factory.jpeg" alt="BeanCraft Factory" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>BeanCraft Factory</h2>
@@ -64,30 +118,21 @@
               <p class="product-price">Price: <strong>$70</strong></p>
             </div>
             <div class="product-cta">
-              <span class="product-badge badge-popular">Most Popular</span>
+              <span class="product-badge badge-popular">Most popular</span>
               <button type="button" class="product-button">Join now</button>
             </div>
           </div>
           <div class="product-stats">
-            <div class="stat-block">
-              <span class="stat-label">Validity period</span>
-              <strong class="stat-value">7 days</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Daily return</span>
-              <strong class="stat-value">$5</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Total earnings</span>
-              <strong class="stat-value">$35</strong>
-            </div>
+            <div class="stat-block"><span class="stat-label">Validity period</span><strong class="stat-value">7 days</strong></div>
+            <div class="stat-block"><span class="stat-label">Daily return</span><strong class="stat-value">$5</strong></div>
+            <div class="stat-block"><span class="stat-label">Total earnings</span><strong class="stat-value">$35</strong></div>
           </div>
         </article>
 
-        <article class="product-card product-card--compact" data-product="Storage Warehouse" data-price="150">
+        <article class="product-card" data-product="Storage Warehouse" data-price="150">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="../images/Storage_warehouse.jpeg" alt="Storage Warehouse" class="product-thumb" />
+              <img src="images/Storage_warehouse.jpeg" alt="Storage Warehouse" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Storage Warehouse</h2>
@@ -95,30 +140,21 @@
               <p class="product-price">Price: <strong>$150</strong></p>
             </div>
             <div class="product-cta">
-              <span class="product-badge badge-popular">Most Popular</span>
+              <span class="product-badge badge-popular">Most popular</span>
               <button type="button" class="product-button">Join now</button>
             </div>
           </div>
           <div class="product-stats">
-            <div class="stat-block">
-              <span class="stat-label">Validity period</span>
-              <strong class="stat-value">7 days</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Daily return</span>
-              <strong class="stat-value">$10</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Total earnings</span>
-              <strong class="stat-value">$70</strong>
-            </div>
+            <div class="stat-block"><span class="stat-label">Validity period</span><strong class="stat-value">7 days</strong></div>
+            <div class="stat-block"><span class="stat-label">Daily return</span><strong class="stat-value">$10</strong></div>
+            <div class="stat-block"><span class="stat-label">Total earnings</span><strong class="stat-value">$70</strong></div>
           </div>
         </article>
 
-        <article class="product-card product-card--compact product-card--compact-name" data-product="Distribution Logistics" data-price="300">
+        <article class="product-card" data-product="Distribution Logistics" data-price="300">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="../images/Distribution_logistics.jpeg" alt="Distribution Logistics" class="product-thumb" />
+              <img src="images/Distribution_logistics.jpeg" alt="Distribution Logistics" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Distribution Logistics</h2>
@@ -131,25 +167,16 @@
             </div>
           </div>
           <div class="product-stats">
-            <div class="stat-block">
-              <span class="stat-label">Validity period</span>
-              <strong class="stat-value">7 days</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Daily return</span>
-              <strong class="stat-value">$24</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Total earnings</span>
-              <strong class="stat-value">$168</strong>
-            </div>
+            <div class="stat-block"><span class="stat-label">Validity period</span><strong class="stat-value">7 days</strong></div>
+            <div class="stat-block"><span class="stat-label">Daily return</span><strong class="stat-value">$24</strong></div>
+            <div class="stat-block"><span class="stat-label">Total earnings</span><strong class="stat-value">$168</strong></div>
           </div>
         </article>
 
         <article class="product-card" data-product="Market Distribution" data-price="600">
           <div class="product-card-head">
             <div class="product-media">
-              <img src="../images/Market-distribution.jpeg" alt="Market Distribution" class="product-thumb" />
+              <img src="images/Market-distribution.jpeg" alt="Market Distribution" class="product-thumb" />
             </div>
             <div class="product-copy">
               <h2>Market Distribution</h2>
@@ -162,18 +189,9 @@
             </div>
           </div>
           <div class="product-stats">
-            <div class="stat-block">
-              <span class="stat-label">Validity period</span>
-              <strong class="stat-value">7 days</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Daily return</span>
-              <strong class="stat-value">$50</strong>
-            </div>
-            <div class="stat-block">
-              <span class="stat-label">Total earnings</span>
-              <strong class="stat-value">$350</strong>
-            </div>
+            <div class="stat-block"><span class="stat-label">Validity period</span><strong class="stat-value">7 days</strong></div>
+            <div class="stat-block"><span class="stat-label">Daily return</span><strong class="stat-value">$50</strong></div>
+            <div class="stat-block"><span class="stat-label">Total earnings</span><strong class="stat-value">$350</strong></div>
           </div>
         </article>
       </section>
@@ -198,118 +216,170 @@
       </nav>
     </main>
 
-    <script type="module" src="../database.js"></script>
-    <script src="../device-route.js"></script>
-    <script type="module" src="../auth.js"></script>
-    <script>
-      // Product "Join now" — frontend guard layer (mobile).
-      //
-      // IMPORTANT: There is currently NO backend product-activation mechanism
-      // in this codebase. `window.zellaDatabase` exposes only user/transaction
-      // helpers (no activate/deduct/update-balance function), and `profiles.balance`
-      // is read read-only elsewhere (me.js). The actual wallet deduction +
-      // activation record must be performed by the existing backend/database, which
-      // this frontend-only task is NOT permitted to modify.
-      //
-      // What this script DOES (real, verifiable frontend behavior):
-      //  - Guests are redirected to the existing login flow (auth.js already
-      //    treats "Join now" as a protected action and sends them to login.html).
-      //  - Logged-in users are stopped if their available balance (the existing
-      //    source of truth, profiles.balance) is below the per-product price.
-      //  - Each product uses its own price from the data-price attribute.
-      //  - The button is disabled during the (existing) recharge funding flow so
-      //    rapid/double clicks cannot spawn duplicate activation attempts.
-      //  - It does NOT fake a deduction or fake an "active" state.
-      (async () => {
-        const supabaseModule = await import('../supabase.js').catch(() => null);
-        const supabase = supabaseModule?.supabase;
+    <script type="module" src="database.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module">
+      import { supabase } from './supabase.js';
 
-        async function getCurrentUser() {
-          if (window.__zellaCurrentUser) return window.__zellaCurrentUser;
-          try {
-            return await window.zellaDatabase?.getCurrentUser?.();
-          } catch {
-            return null;
+      const walletBalanceAmount = document.getElementById('walletBalanceAmount');
+      const myProductsSection = document.getElementById('myProductsSection');
+      const myProductsList = document.getElementById('myProductsList');
+
+      // Map HTML cards to Supabase products by price
+      async function loadProducts() {
+        const { data: products, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('is_active', true);
+
+        if (error) {
+          console.error('Products load error:', error);
+          return;
+        }
+
+        // Attach product IDs to cards by matching price
+        document.querySelectorAll('.product-card').forEach(card => {
+          const price = Number(card.dataset.price);
+          const product = products.find(p => Number(p.price) === price);
+          if (product) {
+            card.dataset.productId = product.id;
           }
+        });
+      }
+
+      async function getCurrentUser() {
+        const { data: { user } } = await supabase.auth.getUser();
+        return user;
+      }
+
+      async function getWalletBalance(userId) {
+        const { data, error } = await supabase
+          .from('wallets')
+          .select('balance')
+          .eq('user_id', userId)
+          .single();
+        return error ? 0 : Number(data?.balance || 0);
+      }
+
+      async function loadMyActivations(userId) {
+        const { data, error } = await supabase
+          .from('activations')
+          .select('*, products(name, price)')
+          .eq('user_id', userId)
+          .eq('status', 'active')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Activations load error:', error);
+          return;
         }
 
-        async function getAvailableBalance(user) {
-          if (!user || !supabase) return 0;
-          try {
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('balance')
-              .eq('id', user.id)
-              .single();
-            return Number(profile?.balance || 0);
-          } catch {
-            return 0;
-          }
+        if (!data || data.length === 0) {
+          myProductsSection.hidden = true;
+          return;
         }
 
-        function showFeedback(button, message, type) {
-          const card = button.closest('.product-card');
-          if (!card) return;
-          let el = card.querySelector('.product-feedback');
-          if (!el) {
-            el = document.createElement('p');
-            el.className = 'product-feedback';
-            button.parentElement.appendChild(el);
-          }
-          el.textContent = message;
-          el.className = `product-feedback product-feedback--${type || 'info'}`;
+        myProductsSection.hidden = false;
+        myProductsList.innerHTML = data.map(a => `
+          <div class="activation-item">
+            <span class="product-name">${a.products?.name || 'Product'}</span>
+            <span class="product-price">$${Number(a.amount_paid).toFixed(2)}</span>
+          </div>
+        `).join('');
+      }
+
+      function showFeedback(button, message, type) {
+        const card = button.closest('.product-card');
+        if (!card) return;
+        let el = card.querySelector('.product-feedback');
+        if (!el) {
+          el = document.createElement('p');
+          el.className = 'product-feedback';
+          button.parentElement.appendChild(el);
+        }
+        el.textContent = message;
+        el.className = 'product-feedback product-feedback--' + (type || 'info');
+      }
+
+      async function init() {
+        const user = await getCurrentUser();
+        if (!user) {
+          window.location.href = 'login.html';
+          return;
         }
 
-        function startActivationRedirect(button, productName) {
-          button.disabled = true;
-          const original = button.textContent;
-          button.dataset.originalLabel = original;
-          button.textContent = 'Processing…';
+        // Show balance
+        const balance = await getWalletBalance(user.id);
+        walletBalanceAmount.textContent = '$' + balance.toFixed(2);
 
-          sessionStorage.setItem('zella_selected_product', productName);
+        // Load products and activations
+        await loadProducts();
+        await loadMyActivations(user.id);
 
-          // TODO(backend): replace this redirect with the existing activation
-          // mechanism once the backend deducts profiles.balance and records the
-          // active product. Do not add a second activation system here.
-          window.location.href = 'recharge.html';
-        }
-
-        document.querySelectorAll('.product-button').forEach((button) => {
+        // Wire up Join Now buttons
+        document.querySelectorAll('.product-button').forEach(button => {
           button.addEventListener('click', async (event) => {
             event.preventDefault();
-            if (button.disabled) return; // double-click / rapid-click protection
+            if (button.disabled) return;
 
             const card = button.closest('.product-card');
-            const productName = card?.dataset.product || '';
+            const productId = card?.dataset.productId;
             const price = Number(card?.dataset.price || 0);
+            const productName = card?.dataset.product || '';
 
-            const user = await getCurrentUser();
-            if (!user) {
-              window.location.href = 'login.html#login';
+            if (!productId) {
+              showFeedback(button, 'Product not available.', 'error');
               return;
             }
 
-            const balance = await getAvailableBalance(user);
-            if (balance < price) {
-              showFeedback(
-                button,
-                'Insufficient funds. Please recharge your wallet to activate this product.',
-                'error'
-              );
-              return;
+            button.disabled = true;
+            button.textContent = 'Processing...';
+
+            try {
+              const currentBalance = await getWalletBalance(user.id);
+              if (currentBalance < price) {
+                showFeedback(button, 'Insufficient funds. Please recharge.', 'error');
+                button.disabled = false;
+                button.textContent = 'Join now';
+                return;
+              }
+
+              const { data, error } = await supabase.rpc('activate_product', {
+                p_user_id: user.id,
+                p_product_id: productId
+              });
+
+              if (error) {
+                if (error.message.includes('Insufficient balance')) {
+                  showFeedback(button, 'Insufficient funds. Please recharge.', 'error');
+                } else {
+                  showFeedback(button, 'Activation failed: ' + error.message, 'error');
+                }
+                button.disabled = false;
+                button.textContent = 'Join now';
+                return;
+              }
+
+              showFeedback(button, productName + ' activated successfully!', 'success');
+              button.textContent = 'Activated';
+              button.disabled = true;
+
+              // Refresh balance and activations
+              const newBalance = await getWalletBalance(user.id);
+              walletBalanceAmount.textContent = '$' + newBalance.toFixed(2);
+              await loadMyActivations(user.id);
+
+            } catch (err) {
+              console.error('Activation error:', err);
+              showFeedback(button, 'Something went wrong.', 'error');
+              button.disabled = false;
+              button.textContent = 'Join now';
             }
-
-            startActivationRedirect(button, productName);
           });
         });
+      }
 
-        window.addEventListener('pageshow', () => {
-          document.querySelectorAll('.product-button[disabled]').forEach((button) => {
-            button.disabled = false;
-            button.textContent = button.dataset.originalLabel || 'Join now';
-          });
-        });
-      })();
+      init();
     </script>
   </body>
 </html>
