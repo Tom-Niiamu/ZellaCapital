@@ -475,7 +475,11 @@ body {
   }
 
   .product-badge {
-    font-size: 0.5rem;
+    font-size: 0.58rem;
+  }
+
+  .badge-profits {
+    font-size: 0.68rem;
   }
 
   .product-button {
@@ -490,10 +494,6 @@ body {
 
   .product-button {
     padding: 7px 11px;
-  }
-
-  .product-list .product-card:first-of-type .product-copy {
-    padding-left: 0;
   }
 
   .product-copy {
