@@ -1,0 +1,6 @@
+# Auto-git-sync watcher log (generated at runtime, not source)
+auto-git-sync.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
