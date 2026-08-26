@@ -87,6 +87,19 @@
       }
       .top-btn:active { transform: translateY(0); }
 
+      /* Dashboard pill — green, matches the recharge page Dashboard button */
+      .dashboard-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 9px 18px; border-radius: 999px;
+        background: #10b981; border: 1px solid transparent;
+        color: #fff; font: inherit; font-weight: 600; font-size: 0.9rem;
+        text-decoration: none; cursor: pointer;
+        box-shadow: 0 4px 12px rgba(2, 6, 23, 0.30);
+        transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+      }
+      .dashboard-link:hover { background: #0ea271; border-color: transparent; transform: translateY(-1px); }
+      .dashboard-link:active { transform: translateY(0); }
+
       /* ===== NEW: Balance & Transaction Styles ===== */
       .balance-section {
         text-align: center;
@@ -144,7 +157,7 @@
         <h1>Wallet</h1>
       </div>
       <nav class="site-nav">
-        <a href="me.html" class="top-btn">Dashboard</a>
+        <a href="me.html" class="dashboard-link">Dashboard</a>
       </nav>
     </header>
 
