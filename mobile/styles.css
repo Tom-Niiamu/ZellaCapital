@@ -80,6 +80,7 @@ header {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-decoration: none;
 }
 
 .recharge { background: #10b981; color: white; }
