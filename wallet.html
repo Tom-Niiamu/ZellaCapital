@@ -62,16 +62,16 @@
       .site-header { display: flex; align-items: center; gap: 16px; }
       .site-header .site-nav { margin-left: auto; display: flex; align-items: center; }
 
-      /* Real, button-like top nav links (replaces plain text) */
+      /* Real, button-like top nav link — uses the checkin "Recharge" green style */
       .top-btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         padding: 9px 18px;
         border-radius: 999px;
-        background: #1e293b;
-        border: 1px solid rgba(148, 163, 184, 0.28);
-        color: #f8fafc;
+        background: #10b981; /* Same green as the homepage Recharge button */
+        border: 1px solid transparent;
+        color: #fff;
         font: inherit;
         font-weight: 600;
         font-size: 0.9rem;
@@ -80,17 +80,9 @@
         box-shadow: 0 4px 12px rgba(2, 6, 23, 0.30);
         transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
       }
-      .top-btn::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--accent, #0f766e);
-        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.25);
-      }
       .top-btn:hover {
-        background: #243349;
-        border-color: var(--accent, #0f766e);
+        background: #0ea271;
+        border-color: transparent;
         transform: translateY(-1px);
       }
       .top-btn:active { transform: translateY(0); }
