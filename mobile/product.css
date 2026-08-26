@@ -234,19 +234,6 @@ body {
   white-space: nowrap;
 }
 
-/* Line-break helper for the first product's badge: hidden everywhere, only
-   revealed at <=375px on the first card (see the 375px block below). */
-.badge-br {
-  display: none;
-}
-
-/* When revealed, force a full-width break so "beginners" drops onto its own
-   line directly beneath "Good for". */
-.product-list .product-card:first-of-type .badge-br {
-  clear: both;
-  width: 100%;
-}
-
 .badge-beginners {
   background: linear-gradient(135deg, #b35b5f, #822d35);
 }
@@ -505,28 +492,6 @@ body {
 
   .product-copy {
     padding-left: 0;
-  }
-}
-
-/* ---- ALL products at <=375px / narrow phones ----
-   Stack every badge's text on two lines ("Good for" / "beginners",
-   "Most" / "popular", "High" / "profits") so each badge takes less width and
-   the details column gets more horizontal room. The <br class="badge-br"> is
-   hidden everywhere else; reveal it here and allow the badge to wrap. */
-@media (max-width: 375px) {
-  .product-list .product-card .badge-br {
-    display: inline;
-  }
-
-  .product-list .product-card .product-badge {
-    /* .product-badge is inline-flex globally; a <br> won't break inside a flex
-       container, so switch to inline-block here so the two words actually
-       stack under each other. */
-    display: inline-block;
-    white-space: normal;
-    text-align: center;
-    line-height: 1.1;
-    padding: 6px 9px;
   }
 }
 
