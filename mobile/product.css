@@ -511,6 +511,10 @@ body {
   }
 
   .product-list .product-card:first-of-type .product-badge {
+    /* .product-badge is inline-flex globally; a <br> won't break inside a flex
+       container, so switch to inline-block here so "Good for" / "beginners"
+       actually stack. */
+    display: inline-block;
     white-space: normal;
     text-align: center;
     line-height: 1.1;
