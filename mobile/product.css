@@ -367,25 +367,30 @@ body {
 
 /* ---- 430 x 932 phone view (e.g. iPhone 14/15 Pro) ----
    Same single-row layout as the 440px reference, but the ~10px narrower
-   viewport squeezes the details (1fr) column and would wrap "Coco Farm".
-   Keep the layout identical; only trim the first card's font sizes just
-   enough to fit on one line at 430px. */
+   viewport squeezes the details (1fr) column. Keep the layout identical on
+   EVERY card; only trim the fonts just enough to fit on one line at 430px. */
 @media (max-width: 430px) {
-  .product-list .product-card:first-of-type .product-copy h2 {
+  .product-copy h2 {
     font-size: 1rem;
   }
 
-  .product-list .product-card:first-of-type .product-tier,
-  .product-list .product-card:first-of-type .product-price {
+  .product-tier,
+  .product-price {
     font-size: 0.74rem;
   }
 
-  .product-list .product-card:first-of-type .product-badge {
+  .product-badge {
     font-size: 0.5rem;
   }
 
-  .product-list .product-card:first-of-type .product-button {
+  .product-button {
     font-size: 0.6rem;
+  }
+
+  /* The first card's left indent eats into the already-tight 1fr column at
+     430px — pull it back so the title doesn't crowd the CTA. */
+  .product-list .product-card:first-of-type .product-copy {
+    padding-left: 10px;
   }
 }
 
