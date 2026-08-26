@@ -186,10 +186,6 @@ body {
   align-items: center;
 }
 
-.product-list .product-card:first-of-type .product-copy {
-  align-self: center;
-}
-
 .product-list .product-card:first-of-type .product-cta {
   align-self: center;
   justify-items: end;
