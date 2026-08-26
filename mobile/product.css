@@ -332,25 +332,36 @@ body {
     padding: 20px 12px 120px;
   }
 
+  /* ALL product cards: single-row layout — the badge + button sit on the
+     SAME row as the details (don't let them wrap underneath), right-aligned
+     and vertically centered with the picture. This is the same treatment the
+     first card (Coco Farm) already had; now every card gets it. */
   .product-card-head {
-    grid-template-columns: 82px 1fr;
-  }
-
-  .product-cta {
-    justify-items: start;
-  }
-
-  /* FIRST product only: keep the badge + button on the SAME row as the
-     product details (don't let it wrap underneath). */
-  .product-list .product-card:first-of-type .product-card-head {
     grid-template-columns: 82px 1fr auto;
   }
 
-  /* FIRST product: the badge + button FOLLOW the product details — right-
-     aligned within their column and vertically centered with the picture. */
-  .product-list .product-card:first-of-type .product-cta {
+  .product-cta {
     justify-items: end;
     align-self: center;
+  }
+
+  /* Tighten the detail + CTA text on EVERY card so it sits neatly next to
+     the right-aligned CTA without overflowing (same sizes as the first card). */
+  .product-copy h2 {
+    font-size: 1.1rem;
+  }
+
+  .product-tier,
+  .product-price {
+    font-size: 0.78rem;
+  }
+
+  .product-badge {
+    font-size: 0.55rem;
+  }
+
+  .product-button {
+    font-size: 0.65rem;
   }
 }
 
