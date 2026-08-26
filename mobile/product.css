@@ -231,6 +231,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #fff;
+  white-space: nowrap;
 }
 
 .badge-beginners {
@@ -253,6 +254,7 @@ body {
   border-radius: 18px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
@@ -340,6 +342,20 @@ body {
     grid-template-columns: 82px 1fr auto;
   }
 
+  /* Contain the picture to its 82px track. It was 110px wide and overflowed
+     into the details/CTA, so the text looked like it sat "on top of" the
+     image. Also keep the detail text inside its own column (min-width:0) and
+     nudge it a few px away from the photo so nothing bleeds into the picture. */
+  .product-media {
+    width: 82px;
+    height: 82px;
+  }
+
+  .product-copy {
+    min-width: 0;
+    padding-left: 4px;
+  }
+
   .product-cta {
     justify-items: end;
     align-self: center;
@@ -387,6 +403,16 @@ body {
     font-size: 0.6rem;
   }
 
+  /* Tighten CTA padding so the badge + button take less width — leaves the
+     details more room and stops "Good for beginners" / "Join now" wrapping. */
+  .product-badge {
+    padding: 7px 10px;
+  }
+
+  .product-button {
+    padding: 9px 13px;
+  }
+
   /* The first card's left indent eats into the already-tight 1fr column at
      430px — pull it back so the title doesn't crowd the CTA. */
   .product-list .product-card:first-of-type .product-copy {
@@ -419,6 +445,14 @@ body {
   .product-list .product-card:first-of-type .product-copy {
     padding-left: 6px;
   }
+
+  .product-badge {
+    padding: 6px 9px;
+  }
+
+  .product-button {
+    padding: 8px 12px;
+  }
 }
 
 /* ---- 375 x 812 phone view (e.g. iPhone SE 2/3, XR, 11, 12/13 mini) ----
@@ -426,23 +460,65 @@ body {
    one line, and fully remove the first card's left indent. */
 @media (max-width: 375px) {
   .product-copy h2 {
-    font-size: 0.9rem;
+    font-size: 0.86rem;
   }
 
   .product-tier,
   .product-price {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
   }
 
   .product-badge {
-    font-size: 0.46rem;
+    font-size: 0.44rem;
   }
 
   .product-button {
-    font-size: 0.56rem;
+    font-size: 0.54rem;
+  }
+
+  /* Tightest CTA padding + zero indent so "Good for beginners" and "Join now"
+     sit on one line without squeezing the details into a broken wrap. */
+  .product-badge {
+    padding: 6px 8px;
+  }
+
+  .product-button {
+    padding: 7px 11px;
   }
 
   .product-list .product-card:first-of-type .product-copy {
+    padding-left: 0;
+  }
+
+  .product-copy {
+    padding-left: 0;
+  }
+}
+
+/* ---- 360 x 800 phone view (budget Android, e.g. Galaxy A-series) ----
+   Narrowest floor: same layout; smallest fonts + tightest padding so nothing
+   wraps or breaks. */
+@media (max-width: 360px) {
+  .product-copy h2 {
+    font-size: 0.82rem;
+  }
+
+  .product-tier,
+  .product-price {
+    font-size: 0.66rem;
+  }
+
+  .product-badge {
+    font-size: 0.42rem;
+    padding: 5px 7px;
+  }
+
+  .product-button {
+    font-size: 0.52rem;
+    padding: 6px 10px;
+  }
+
+  .product-copy {
     padding-left: 0;
   }
 }
