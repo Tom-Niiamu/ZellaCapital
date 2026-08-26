@@ -234,6 +234,12 @@ body {
   white-space: nowrap;
 }
 
+/* Line-break helper for the first product's badge: hidden everywhere, only
+   revealed at <=375px on the first card (see the 375px block below). */
+.badge-br {
+  display: none;
+}
+
 .badge-beginners {
   background: linear-gradient(135deg, #b35b5f, #822d35);
 }
