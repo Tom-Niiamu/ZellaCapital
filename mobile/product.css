@@ -394,6 +394,59 @@ body {
   }
 }
 
+/* ---- 390 x 844 phone view (e.g. iPhone 12/13/14) ----
+   ~40px narrower than 430px. Same single-row layout for EVERY card; trim the
+   fonts a touch more so even the longest titles ("Distribution Logistics")
+   stay on one line, and reclaim more of the first card's left indent. */
+@media (max-width: 390px) {
+  .product-copy h2 {
+    font-size: 0.95rem;
+  }
+
+  .product-tier,
+  .product-price {
+    font-size: 0.72rem;
+  }
+
+  .product-badge {
+    font-size: 0.48rem;
+  }
+
+  .product-button {
+    font-size: 0.58rem;
+  }
+
+  .product-list .product-card:first-of-type .product-copy {
+    padding-left: 6px;
+  }
+}
+
+/* ---- 375 x 812 phone view (e.g. iPhone SE 2/3, XR, 11, 12/13 mini) ----
+   The narrowest common phone. Same layout; final trim so everything fits on
+   one line, and fully remove the first card's left indent. */
+@media (max-width: 375px) {
+  .product-copy h2 {
+    font-size: 0.9rem;
+  }
+
+  .product-tier,
+  .product-price {
+    font-size: 0.7rem;
+  }
+
+  .product-badge {
+    font-size: 0.46rem;
+  }
+
+  .product-button {
+    font-size: 0.56rem;
+  }
+
+  .product-list .product-card:first-of-type .product-copy {
+    padding-left: 0;
+  }
+}
+
 /* ---- Join-now feedback + disabled state ---- */
 .product-button:disabled {
   opacity: 0.6;
