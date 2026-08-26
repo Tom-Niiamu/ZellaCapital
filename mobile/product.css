@@ -160,6 +160,49 @@ body {
   text-align: left;
 }/* Ensure all product titles use the same size as the first two cards */
 
+/* Shift the FIRST product's (Coco Farm) details to the right. */
+.product-list .product-card:first-of-type .product-copy {
+  padding-left: 20px;
+}
+
+/* FIRST product: reduce badge + button font so the CTA sits up next
+   to the product name/details instead of being pushed down. */
+.product-list .product-card:first-of-type .product-badge {
+  font-size: 0.55rem;
+}
+
+.product-list .product-card:first-of-type .product-button {
+  font-size: 0.65rem;
+}
+
+/* FIRST product: align the details column and the badge+button column to the
+   VERTICAL MIDDLE of the product picture (the picture is the tallest item and
+   the head centers items). This drops both text columns down so they sit level
+   with the center of the image, instead of hugging the top edge. */
+.product-list .product-card:first-of-type .product-card-head {
+  align-items: center;
+}
+
+.product-list .product-card:first-of-type .product-copy {
+  align-self: center;
+}
+
+.product-list .product-card:first-of-type .product-cta {
+  align-self: center;
+  justify-items: end;
+}
+
+/* FIRST product: reduce the size of the product detail text (title, tier,
+   price) so the details sit tighter next to the CTA without overflowing. */
+.product-list .product-card:first-of-type .product-copy h2 {
+  font-size: 1.1rem;
+}
+
+.product-list .product-card:first-of-type .product-tier,
+.product-list .product-card:first-of-type .product-price {
+  font-size: 0.78rem;
+}
+
 .product-tier,
 .product-price {
   margin: 8px 0 0;
@@ -295,6 +338,19 @@ body {
 
   .product-cta {
     justify-items: start;
+  }
+
+  /* FIRST product only: keep the badge + button on the SAME row as the
+     product details (don't let it wrap underneath). */
+  .product-list .product-card:first-of-type .product-card-head {
+    grid-template-columns: 82px 1fr auto;
+  }
+
+  /* FIRST product: the badge + button FOLLOW the product details — right-
+     aligned within their column and vertically centered with the picture. */
+  .product-list .product-card:first-of-type .product-cta {
+    justify-items: end;
+    align-self: center;
   }
 }
 
