@@ -59,6 +59,14 @@
         border-color: transparent;
       }
       .top-btn.primary::before { display: none; }
+      /* Recharge button (top-right) — green pill matching the checkin Recharge style */
+      .top-btn.recharge {
+        background: #10b981; /* Same green as the homepage Recharge button / checkin */
+        border-color: transparent;
+        color: #fff;
+      }
+      .top-btn.recharge::before { display: none; }
+      .top-btn.recharge:hover { background: #0ea271; border-color: transparent; transform: translateY(-1px); }
       .activity-header {
         display: flex;
         align-items: center;
@@ -129,7 +137,7 @@
       </div>
       <nav class="site-nav">
         <a href="index.html" class="top-btn primary">Home</a>
-        <a href="login.html" class="top-btn">Sign in</a>
+        <a href="login.html" class="top-btn recharge">Sign in</a>
       </nav>
     </header>
 
