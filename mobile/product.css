@@ -240,6 +240,13 @@ body {
   display: none;
 }
 
+/* When revealed, force a full-width break so "beginners" drops onto its own
+   line directly beneath "Good for". */
+.product-list .product-card:first-of-type .badge-br {
+  clear: both;
+  width: 100%;
+}
+
 .badge-beginners {
   background: linear-gradient(135deg, #b35b5f, #822d35);
 }
