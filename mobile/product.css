@@ -495,6 +495,24 @@ body {
   }
 }
 
+/* ---- First product ONLY at 375x667 / narrow phones ----
+   Stack the Coco Farm badge as "Good for" / "beginners" on two lines so the
+   details column gets more horizontal room. The <br class="badge-br"> is
+   hidden everywhere else; reveal it here and allow the badge to wrap. */
+@media (max-width: 375px) {
+  .product-list .product-card:first-of-type .badge-br {
+    display: inline;
+  }
+
+  .product-list .product-card:first-of-type .product-badge {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.1;
+    padding: 6px 9px;
+    max-width: 84px;
+  }
+}
+
 /* ---- 360 x 800 phone view (budget Android, e.g. Galaxy A-series) ----
    Narrowest floor: same layout; smallest fonts + tightest padding so nothing
    wraps or breaks. */
